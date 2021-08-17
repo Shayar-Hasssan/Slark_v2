@@ -1,0 +1,28 @@
+ // Stack(
+                                        //   // ignore: deprecated_member_use
+                                        //   // overflow: Overflow.visible,
+                                        //   children: [
+                                        //     Positioned(
+                                        //         right: 60.0,
+                                        //         child: Container(
+                                        //           height: ScreenUtil()
+                                        //               .setHeight(30.0),
+                                        //           width: ScreenUtil()
+                                        //               .setWidth(30.0),
+                                        //           decoration: BoxDecoration(
+                                        //             color: Color(0xff4d3a58)
+                                        //                 .withOpacity(0.1),
+                                        //             border: Border.all(
+                                        //                 color: Colors.white),
+                                        //             shape: BoxShape.circle,
+                                        //           ),
+                                        //           child: Image(
+                                        //             height: 40.0,
+                                        //             width: 40.0,
+                                        //             fit: BoxFit.cover,
+                                        //             image: AssetImage(
+                                        //                 'assets/images/profile.png'),
+                                        //           ),
+                                        //         )),
+                                        //   ],
+                                        // )
