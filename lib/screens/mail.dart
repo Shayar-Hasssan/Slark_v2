@@ -132,10 +132,10 @@ class _MailScreenState extends State<MailScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(3.0),
-                                    child: Image.asset(
-                                      'assets/images/profile.png',
-                                      height: 60.0,
-                                      width: 60.0,
+                                    child: CircleAvatar(
+                                      radius: 40.0,
+                                      backgroundImage:
+                                          AssetImage('assets/images/u5.jpg'),
                                     ),
                                   ),
                                 ),
@@ -242,10 +242,9 @@ class _MailScreenState extends State<MailScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset(
-                            'assets/images/profile.png',
-                            height: 60.0,
-                            width: 60.0,
+                          child: CircleAvatar(
+                            radius: 40.0,
+                            backgroundImage: AssetImage('assets/images/u5.jpg'),
                           ),
                         ),
                       ),
@@ -312,10 +311,9 @@ class _MailScreenState extends State<MailScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset(
-                            'assets/images/profile.png',
-                            height: 60.0,
-                            width: 60.0,
+                          child: CircleAvatar(
+                            radius: 30.0,
+                            backgroundImage: AssetImage('assets/images/u3.jpg'),
                           ),
                         ),
                       ),
@@ -382,10 +380,9 @@ class _MailScreenState extends State<MailScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset(
-                            'assets/images/profile.png',
-                            height: 60.0,
-                            width: 60.0,
+                          child: CircleAvatar(
+                            radius: 40.0,
+                            backgroundImage: AssetImage('assets/images/u2.jpg'),
                           ),
                         ),
                       ),
@@ -452,10 +449,9 @@ class _MailScreenState extends State<MailScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset(
-                            'assets/images/profile.png',
-                            height: 60.0,
-                            width: 60.0,
+                          child: CircleAvatar(
+                            radius: 40.0,
+                            backgroundImage: AssetImage('assets/images/u1.jpg'),
                           ),
                         ),
                       ),

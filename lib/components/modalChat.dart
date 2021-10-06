@@ -34,7 +34,7 @@ class ModalChat extends StatelessWidget {
                     child: Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: Image.asset(
-                          'assets/images/profile.png',
+                          'assets/images/u5.jpg',
                           height: 60.0,
                           width: 60.0,
                         )),

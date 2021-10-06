@@ -3,6 +3,7 @@ import 'package:slark_v2/components/rounded_button.dart';
 import 'package:slark_v2/components/rounded_input.dart';
 import 'package:slark_v2/components/rounded_password_input.dart';
 import 'package:slark_v2/screens/mainScreen.dart';
+import 'package:slark_v2/screens/splash.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -59,7 +60,7 @@ class LoginForm extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MainScreen()));
+                              builder: (context) => SplashScreen()));
                     }),
               ],
             ),

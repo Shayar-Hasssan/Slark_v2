@@ -21,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   String chosenSpace = '';
   double xoffset = 0;
   double yoffset = 0;
+  List<String> createNew = ['Workspace', 'Space', 'Project', 'Team'];
 
   bool isDrawerOpen = false;
 
@@ -87,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
                               height: 40.0,
                               width: 40.0,
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/images/profile.png'),
+                              image: AssetImage('assets/images/user.png'),
                             ),
                           ),
                         ),
@@ -280,16 +281,14 @@ class _MainScreenState extends State<MainScreen> {
                         shape: BoxShape.circle,
                       ),
                       // ignore: deprecated_member_use
-                      child: FlatButton(
-                        onPressed: () {
+                      child: InkWell(
+                        onTap: () {
                           print('Helllo');
                           openBottomSheet();
                         },
-                        child: Image(
-                          height: 30.0,
-                          width: 30.0,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/profile.png'),
+                        child: CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: AssetImage('assets/images/u1.jpg'),
                         ),
                       ),
                     ),
@@ -320,15 +319,14 @@ class _MainScreenState extends State<MainScreen> {
                         shape: BoxShape.circle,
                       ),
                       // ignore: deprecated_member_use
-                      child: FlatButton(
-                        onPressed: () {
+                      child: InkWell(
+                        onTap: () {
                           print('Helllo');
+                          openBottomSheet();
                         },
-                        child: Image(
-                          height: 30.0,
-                          width: 30.0,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/profile.png'),
+                        child: CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: AssetImage('assets/images/u3.jpg'),
                         ),
                       ),
                     ),
@@ -455,44 +453,42 @@ class _MainScreenState extends State<MainScreen> {
 
           return Container(
             height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 0.8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text('Spaces'),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: ListView(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, right: 8.0, top: 0.8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Spaces(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text('Spaces'),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.add,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Spaces(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });
