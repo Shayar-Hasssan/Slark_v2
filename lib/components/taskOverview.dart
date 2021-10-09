@@ -8,20 +8,27 @@ import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/Kanbanboard.dart';
 import 'package:slark_v2/screens/tasks.dart';
 
-class SheetView extends StatefulWidget {
-  const SheetView({Key? key}) : super(key: key);
+class TaskSheetView extends StatefulWidget {
+  const TaskSheetView({Key? key}) : super(key: key);
 
   @override
-  _SheetViewState createState() => _SheetViewState();
+  _TaskSheetViewState createState() => _TaskSheetViewState();
 }
 
-class _SheetViewState extends State<SheetView> {
-  bool memberOver4 = true;
-  var taskOptions = [
-    'My Tasks',
-    'Add Task',
-    'Progress',
-  ];
+class _TaskSheetViewState extends State<TaskSheetView> {
+  bool completedTask = false;
+  var markColor = Colors.grey;
+  statusColor() {
+    if (completedTask == true)
+      setState(() {
+        markColor = Colors.green;
+      });
+    else
+      setState(() {
+        markColor = Colors.grey;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,30 +55,13 @@ class _SheetViewState extends State<SheetView> {
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(20.0),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Slark Project',
-                    style: GoogleFonts.poppins(
-                      color: Color(0xff4d3a58),
-                      fontWeight: FontWeight.w700,
-                      fontSize: ScreenUtil().setSp(26.0),
-                    ),
-                  ),
-                  Container(
-                    height: 15.0,
-                    // ignore: deprecated_member_use
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.done,
-                        color: Colors.grey,
-                        size: 30.0,
-                      ),
-                    ),
-                  ),
-                ],
+              child: Text(
+                'Task Name',
+                style: GoogleFonts.poppins(
+                  color: Color(0xff4d3a58),
+                  fontWeight: FontWeight.w700,
+                  fontSize: ScreenUtil().setSp(26.0),
+                ),
               ),
             ),
             SizedBox(
@@ -166,7 +156,7 @@ class _SheetViewState extends State<SheetView> {
                 left: ScreenUtil().setWidth(20.0),
               ),
               child: Text(
-                "Team Members",
+                "Member Assigned To",
                 style: GoogleFonts.poppins(
                   color: Color(0xff4d3a58),
                   fontWeight: FontWeight.w600,
@@ -185,8 +175,6 @@ class _SheetViewState extends State<SheetView> {
                 spacing: 20.0,
                 children: [
                   MemberImg(),
-                  MemberImg(),
-                  MemberImg(),
                   Visibility(
                     child: MoreMembers(),
                   ),
@@ -196,65 +184,28 @@ class _SheetViewState extends State<SheetView> {
             SizedBox(
               height: ScreenUtil().setHeight(20.0),
             ),
-            //Tasks
-            Padding(
-              padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(20.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Tasks",
-                    style: GoogleFonts.poppins(
-                      color: Color(0xff4d3a58),
-                      fontWeight: FontWeight.w600,
-                      fontSize: ScreenUtil().setSp(18.0),
-                    ),
+            ListTile(
+              // ignore: deprecated_member_use
+              title: RaisedButton.icon(
+                color: Colors.blue[200],
+                onPressed: () {
+                  setState(() {
+                    completedTask = !completedTask;
+                    statusColor();
+                  });
+                },
+                icon: Icon(
+                  Icons.done,
+                  color: markColor,
+                  size: 35.0,
+                ),
+                label: Text(
+                  'Mark as Completed',
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
-                  PopupMenuButton(
-                    itemBuilder: (context) {
-                      return taskOptions.map((option) {
-                        return PopupMenuItem(
-                          value: option,
-                          child: Text(option),
-                        );
-                      }).toList();
-                    },
-                    onSelected: (option) {
-                      if (option == 'Progress') {
-                        Navigator.pop(context);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => KanbanBoard(),
-                          ),
-                        );
-                      } else if (option == 'My Tasks') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TasksScreen(),
-                          ),
-                        );
-                      }
-                    },
-                    icon: Icon(
-                      Icons.more_horiz,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(10.0),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(20.0),
-              ),
-              child: TaskCard(),
             ),
           ],
         ),

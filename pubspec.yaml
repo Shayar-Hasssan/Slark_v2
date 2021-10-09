@@ -37,6 +37,10 @@ dependencies:
   country_code_picker: ^2.0.2
   card_selector: ^0.1.0
   flutter_swiper: ^1.1.6
+  sliding_sheet: ^0.5.0
+  boardview: ^0.2.2
+  flutter_speed_dial: ^3.0.5
+  syncfusion_flutter_calendar: ^19.3.44
 
 dev_dependencies:
   flutter_test:

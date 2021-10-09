@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slark_v2/components/customAppBar.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/constraints.dart';
 
@@ -25,19 +26,8 @@ class _ChooseWsState extends State<ChooseWs> {
       // extendBodyBehindAppBar: true,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
-        child: AppBar(
-          backgroundColor: kPrimaryColor,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30))),
-          centerTitle: true,
-          title: Column(
-            children: [
-              SizedBox(height: 33.0),
-              Text('Where to go?'),
-            ],
-          ),
+        child: CustomAppBar(
+          title: 'Where to go?',
         ),
       ),
       body: Padding(
@@ -60,29 +50,29 @@ class Entry {
 }
 
 final List<Entry> wS = <Entry>[
-  Entry('workspacename1', <Entry>[
-    Entry('Space11'),
-    Entry('Space12'),
-    Entry('Space13'),
-    Entry('Space14'),
-    Entry('Space15'),
+  Entry('ITE WS', <Entry>[
+    Entry('HR'),
+    Entry('Library'),
+    Entry('Professors'),
+    Entry('Students'),
+    Entry('Employers'),
   ]),
-  Entry('workspacename2', <Entry>[
-    Entry('Space21'),
-    Entry('Space22'),
+  Entry('Soft WS', <Entry>[
+    Entry('Employers'),
+    Entry('Managers'),
   ]),
-  Entry('workspacename3', <Entry>[
-    Entry('Space31'),
-    Entry('Space32'),
-    Entry('Space33'),
-    Entry('Space34'),
+  Entry('FLutter Soft WS', <Entry>[
+    Entry('Developers'),
+    Entry('QA'),
+    Entry('Testers'),
+    Entry('Leaders'),
   ]),
-  Entry('workspacename4', <Entry>[
-    Entry('Space41'),
-    Entry('Space42'),
-    Entry('Space43'),
+  Entry('OrganizationLLC', <Entry>[
+    Entry('ERP'),
+    Entry('SCM'),
+    Entry('CRM'),
   ]),
-  Entry('workspacename5', <Entry>[
-    Entry('Space51'),
+  Entry('Google LLC', <Entry>[
+    Entry('Services'),
   ]),
 ];

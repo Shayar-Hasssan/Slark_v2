@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/modalChat.dart';
+import 'package:slark_v2/components/taskOverview.dart';
 import 'package:slark_v2/screens/Kanbanboard.dart';
 import 'package:slark_v2/screens/gantt.dart';
 import 'package:slark_v2/screens/mail.dart';
@@ -10,14 +11,14 @@ import 'package:slark_v2/screens/projectOverview.dart';
 
 import '../constraints.dart';
 
-class ProjectSummery extends StatefulWidget {
-  const ProjectSummery({Key? key}) : super(key: key);
+class TaskSummery extends StatefulWidget {
+  const TaskSummery({Key? key}) : super(key: key);
 
   @override
-  _ProjectSummeryState createState() => _ProjectSummeryState();
+  _TaskSummeryState createState() => _TaskSummeryState();
 }
 
-class _ProjectSummeryState extends State<ProjectSummery> {
+class _TaskSummeryState extends State<TaskSummery> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,7 +47,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Slark Project',
+                      'Task Name',
                       style: GoogleFonts.poppins(
                         color: Color(0xff4d3a58),
                         fontWeight: FontWeight.w500,
@@ -136,7 +137,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
   }
 
   void sheet() {
-    List<String> pOptions = ['Chat', 'Ganttchart', 'BoardView'];
+    List<String> tOptions = ['Apply Progress'];
     var selectedOption;
     showModalBottomSheet(
         isScrollControlled: true,
@@ -175,7 +176,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                       Spacer(),
                       PopupMenuButton(
                         itemBuilder: (context) {
-                          return pOptions.map((option) {
+                          return tOptions.map((option) {
                             return PopupMenuItem(
                               value: option,
                               child: Text(option),
@@ -187,47 +188,23 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                             selectedOption = option;
                           });
                           print(selectedOption);
-                          if (option == 'Chat') {
-                            Navigator.pop(context);
-                            //TODO
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ModalChat(),
-                              ),
-                            );
-                          } else if (option == 'Ganttchart') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GanttChart(),
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => KanbanBoard(),
-                              ),
-                            );
-                          }
-                        },
-                        icon: Icon(Icons.more_horiz, color: Colors.white),
-                      ),
-                      // IconButton(
-                      //   onPressed: () {
 
-                      //   },
-                      //   icon: Icon(
-                      //     Icons.more_horiz,
-                      //     size: ScreenUtil().setHeight(24.0),
-                      //   ),
-                      //   color: Colors.white,
-                      // ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => KanbanBoard(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.more_horiz,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Expanded(child: SheetView()),
+                Expanded(child: TaskSheetView()),
               ],
             ),
           );

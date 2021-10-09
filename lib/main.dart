@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/screens/Kanbanboard.dart';
 import 'package:slark_v2/screens/auth.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
+import 'package:slark_v2/screens/gantt.dart';
 import 'package:slark_v2/screens/home.dart';
 import 'package:slark_v2/screens/mail.dart';
 import 'package:slark_v2/screens/splash.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
         ),
-        home: Home(),
+        home: GanttChart(),
       ),
     );
   }
