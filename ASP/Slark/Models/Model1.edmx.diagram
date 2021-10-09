@@ -42,6 +42,10 @@
         <AssociationConnector Association="SlarkModel.FK_Teams_WorkSpaces" ManuallyRouted="false" />
         <AssociationConnector Association="SlarkModel.FK_WsManagers_WorkSpaces" ManuallyRouted="false" />
         <AssociationConnector Association="SlarkModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SlarkModel.Wsmember" Width="1.5" PointX="10.375" PointY="3.75" />
+        <AssociationConnector Association="SlarkModel.FK_Wsmember_AspNetUsers" />
+        <AssociationConnector Association="SlarkModel.FK_Wsmember_WorkSpaces" />
+        <AssociationConnector Association="SlarkModel.FK_Tasks_AspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

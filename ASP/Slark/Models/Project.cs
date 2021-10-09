@@ -26,6 +26,7 @@ namespace Slark.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string SpaceId { get; set; }
+        public byte status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatRoom> ChatRooms { get; set; }

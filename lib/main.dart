@@ -5,6 +5,7 @@ import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/auth.dart';
 import 'package:slark_v2/screens/home.dart';
 import 'package:slark_v2/screens/mail.dart';
+import 'package:slark_v2/screens/mainScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
         ),
-        home: Home(),
+        home: MainScreen(),
       ),
     );
   }

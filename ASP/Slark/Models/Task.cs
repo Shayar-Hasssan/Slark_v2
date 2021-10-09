@@ -23,8 +23,12 @@ namespace Slark.Models
         public double DonePrecentage { get; set; }
         public byte IsClosed { get; set; }
         public string TaskDesc { get; set; }
+        public string Parantid { get; set; }
+        public Nullable<int> Priority { get; set; }
+        public string UserId { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual ProjectStatu ProjectStatu { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace Slark.Models
             this.Spaces = new HashSet<Space>();
             this.Teams = new HashSet<Team>();
             this.WsManagers = new HashSet<WsManager>();
+            this.Wsmembers = new HashSet<Wsmember>();
         }
     
         public string Id { get; set; }
@@ -31,5 +32,7 @@ namespace Slark.Models
         public virtual ICollection<Team> Teams { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WsManager> WsManagers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wsmember> Wsmembers { get; set; }
     }
 }

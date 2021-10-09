@@ -188,7 +188,7 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\SpacesController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
-    <Compile Include="Controllers\WorkSpacesController.cs" />
+    <Compile Include="Controllers\api\WorkSpacesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,7 +267,11 @@
     <Compile Include="Models\WorkSpace.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WorkSpaceViewModel.cs" />
     <Compile Include="Models\WsManager.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Wsmember.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

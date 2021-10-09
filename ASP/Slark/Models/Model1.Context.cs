@@ -43,5 +43,6 @@ namespace Slark.Models
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<WorkSpace> WorkSpaces { get; set; }
         public virtual DbSet<WsManager> WsManagers { get; set; }
+        public virtual DbSet<Wsmember> Wsmembers { get; set; }
     }
 }
