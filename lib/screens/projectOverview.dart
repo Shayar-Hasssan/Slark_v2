@@ -181,14 +181,24 @@ class _SheetViewState extends State<SheetView> {
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(20.0),
               ),
-              child: Wrap(
-                spacing: 20.0,
+              child: Column(
                 children: [
-                  MemberImg(),
-                  MemberImg(),
-                  MemberImg(),
-                  Visibility(
-                    child: MoreMembers(),
+                  Wrap(
+                    spacing: 20.0,
+                    children: [
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      Visibility(
+                        child: MoreMembers(),
+                      ),
+                    ],
                   ),
                 ],
               ),

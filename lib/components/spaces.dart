@@ -9,8 +9,19 @@ class Spaces extends StatefulWidget {
 }
 
 class _SpacesState extends State<Spaces> {
-  // var spaces = ['spaceyy', 'space n', 'space jk', 'space bm'];
-  var spaces = [];
+  var spaces = [
+    'spaceyy',
+    'space n',
+    'space jk',
+    'space bm',
+    'SSppp',
+    'spaceyy',
+    'space n',
+    'space jk',
+    'space bm',
+    'SSppp'
+  ];
+  // var spaces = [];
   @override
   Widget build(BuildContext context) => spaces.isEmpty
       ? Text('NO Spaces Yet')
@@ -18,14 +29,35 @@ class _SpacesState extends State<Spaces> {
           itemCount: spaces.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListTile(
+                padding: const EdgeInsets.all(5.0),
+                child:
+                    // Text(
+                    // 'calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.'),
+                    Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white54)),
+                  child: ListTile(
+                      title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${spaces[index]}'),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ))
+                    ],
+                  )),
+                )
+                // ListTile(
 
-                  // trailing: Text(
-                  //   spaces[index],
-                  //   style: TextStyle(color: Colors.green, fontSize: 15),
-                  // ),
-                  title: Text(spaces[index])),
-            );
+                //     // trailing: Text(
+                //     //   spaces[index],
+                //     //   style: TextStyle(color: Colors.green, fontSize: 15),
+                //     // ),
+                //     title: Text(spaces[index])),
+                );
           });
 }

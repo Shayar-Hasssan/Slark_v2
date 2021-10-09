@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MemberImg extends StatefulWidget {
-  const MemberImg({Key? key}) : super(key: key);
+  const MemberImg({Key? key, this.image}) : super(key: key);
 
   @override
   _MemberImgState createState() => _MemberImgState();
+  final image;
 }
 
 class _MemberImgState extends State<MemberImg> {
@@ -28,7 +29,7 @@ class _MemberImgState extends State<MemberImg> {
           height: 30.0,
           width: 30.0,
           fit: BoxFit.cover,
-          image: AssetImage('assets/images/profile.png'),
+          image: AssetImage(widget.image),
         ),
       ),
     );

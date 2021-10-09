@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
         ),
-        home: GanttChart(),
+        home: Home(),
       ),
     );
   }

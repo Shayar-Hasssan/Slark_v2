@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/customAppBar.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -30,18 +31,28 @@ class _GanttChartState extends State<GanttChart> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SfCalendar(
-          view: CalendarView.timelineMonth,
-          firstDayOfWeek: 1,
-          timeSlotViewSettings: TimeSlotViewSettings(startHour: 9, endHour: 18),
-          dataSource: _events,
-          specialRegions: _specialTimeRegions,
-          headerHeight: 100,
-          appointmentTextStyle: TextStyle(fontSize: 25),
-          //  appointmentTextStyle = const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500, fontFamily: 'Roboto')
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: CustomAppBar(
+          title: 'Project Name',
         ),
+      ),
+      body: SfCalendar(
+        view: CalendarView.timelineMonth,
+        firstDayOfWeek: 1,
+        timeSlotViewSettings: TimeSlotViewSettings(startHour: 9, endHour: 18),
+        dataSource: _events,
+        specialRegions: _specialTimeRegions,
+        headerHeight: 70,
+        headerStyle: CalendarHeaderStyle(
+            textAlign: TextAlign.center,
+            textStyle: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 20,
+            )),
+        appointmentTextStyle: TextStyle(fontSize: 25),
+        //  appointmentTextStyle = const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500, fontFamily: 'Roboto')
       ),
     );
   }

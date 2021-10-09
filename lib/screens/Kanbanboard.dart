@@ -21,7 +21,10 @@ class _KanbanBoardState extends State<KanbanBoard> {
         ),
       ),
       body: KanbanView(),
-      floatingActionButton: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.receipt),
+      ),
     );
   }
 }

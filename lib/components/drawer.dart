@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/components/memberImage.dart';
+import 'package:slark_v2/components/workspaces.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/mail.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -85,7 +88,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     fontSize: ScreenUtil().setSp(14.0),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  showTeamsSheet();
+                },
               ),
               ListTile(
                 leading: Icon(
@@ -108,7 +113,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     fontSize: ScreenUtil().setSp(8.0),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  showWorkspaceSheet();
+                },
               ),
               SizedBox(
                 height: 40.0,
@@ -134,4 +141,340 @@ class _DrawerScreenState extends State<DrawerScreen> {
       ),
     );
   }
+
+  void showTeamsSheet() => showSlidingBottomSheet(
+        context,
+        builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: SnapSpec(
+            initialSnap: 0.7,
+            snappings: [0.8, 0.7, 1],
+          ),
+          builder: buildTeamsSheet,
+        ),
+      );
+
+  Widget buildTeamsSheet(context, state) => Material(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView(
+            shrinkWrap: true,
+            primary: false,
+            padding: EdgeInsets.only(top: 2.0, bottom: 8.0),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Teams',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        elevation: 0.0,
+                        backgroundColor: Colors.blue[300],
+                        child: Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                color: kPrimaryColor,
+                indent: 30,
+                endIndent: 30.0,
+              ),
+              SizedBox(height: 15.0),
+              Text(
+                'Team Name',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              SizedBox(height: 20.0),
+              Wrap(
+                spacing: 5.0,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle5.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle13.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle20.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle26.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle18.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle11.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Divider(),
+              SizedBox(height: 15.0),
+              Text(
+                'Team Name',
+                style: TextStyle(fontSize: 18.0),
+              ),
+              SizedBox(height: 20.0),
+              Wrap(
+                spacing: 5.0,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle5.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle13.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle20.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle26.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle18.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        MemberImg(
+                          image: 'assets/images/People_Circle11.png',
+                        ),
+                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+
+  void showWorkspaceSheet() => showSlidingBottomSheet(
+        context,
+        builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: SnapSpec(
+            initialSnap: 0.7,
+            snappings: [0.8, 0.7, 1],
+          ),
+          builder: buildWorkspaceSheet,
+        ),
+      );
+
+  Widget buildWorkspaceSheet(context, state) => Material(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView(
+            shrinkWrap: true,
+            primary: false,
+            padding: EdgeInsets.only(top: 2.0, bottom: 8.0),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Wokrspaces',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        elevation: 0.0,
+                        backgroundColor: Colors.blue[300],
+                        child: Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                color: kPrimaryColor,
+                indent: 30,
+                endIndent: 30.0,
+              ),
+              SizedBox(height: 15.0),
+              Wrap(
+                spacing: 5.0,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 12.0, left: 12.0, right: 12.0),
+                    child: Column(
+                      children: [
+                        Workspaces(),
+                        Text('Workspace', style: TextStyle(fontSize: 12.0))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
 }
