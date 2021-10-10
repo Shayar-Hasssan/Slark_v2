@@ -189,6 +189,7 @@
     <Compile Include="Controllers\SpacesController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\api\WorkSpacesController.cs" />
+    <Compile Include="Controllers\TeamMembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
