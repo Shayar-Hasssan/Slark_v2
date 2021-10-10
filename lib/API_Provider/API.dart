@@ -13,15 +13,15 @@ class ApiProvider {
     'Accept': 'application/json',
   };
 
-  Future<LoginModel> Login(context, String username, String password) async {
-    Map body = {"username": username, "password": password};
-    var response = await _removeSSL(
-        RequestType.POST, LoginUrl, body, context, IsAuthorized.False);
-    print(response);
+  // Future<LoginModel> Login(context, String username, String password) async {
+  //   Map body = {"username": username, "password": password};
+  //   var response = await _removeSSL(
+  //       RequestType.POST, LoginUrl, body, context, IsAuthorized.False);
+  //   print(response);
 
-    var res = LoginModel.fromJson(json.decode(response));
-    return res;
-  }
+  //   var res = LoginModel.fromJson(json.decode(response));
+  //   return res;
+  // }
 
   _removeSSL(RequestType requestType, String url, Map body, context,
       IsAuthorized isAuthorized) async {
@@ -56,31 +56,31 @@ class ApiProvider {
     Map body,
     IsAuthorized isAuthorized,
   ) async {
-    if (isAuthorized.index == 0) {
-      print('body: -_loadRequestPost ${json.encode(body)}');
-      print('_authorizHeader: $_authorizHeader');
-      final response =
-          await http.post(Uri.parse(url), headers: _authorizHeader, body: body);
-      print('response:-- ${response.body}');
-      return response;
-    } else {
-      print('body: -_loadRequestPost ${json.encode(body)}');
-      final response =
-          await http.post(Uri.parse(url), headers: _headers, body: body);
-      print('response:-- ${response.body}');
-      return response;
-    }
+    // if (isAuthorized.index == 0) {
+    //   print('body: -_loadRequestPost ${json.encode(body)}');
+    //   print('_authorizHeader: $_authorizHeader');
+    //   final response =
+    //       await http.post(Uri.parse(url), headers: _authorizHeader, body: body);
+    //   print('response:-- ${response.body}');
+    //   return response;
+    // } else {
+    //   print('body: -_loadRequestPost ${json.encode(body)}');
+    //   final response =
+    //       await http.post(Uri.parse(url), headers: _headers, body: body);
+    //   print('response:-- ${response.body}');
+    //   return response;
+    // }
   }
 
   _loadRequestGet(String url, IsAuthorized isAuthorized) async {
-    if (isAuthorized.index == 0) {
-      print(_authorizHeader);
-      final request = await http.get(Uri.parse(url), headers: _authorizHeader);
-      return request;
-    } else {
-      final request = await http.get(Uri.parse(url), headers: _headers);
-      return request;
-    }
+    // if (isAuthorized.index == 0) {
+    //   print(_authorizHeader);
+    //   final request = await http.get(Uri.parse(url), headers: _authorizHeader);
+    //   return request;
+    // } else {
+    //   final request = await http.get(Uri.parse(url), headers: _headers);
+    //   return request;
+    // }
   }
 }
 

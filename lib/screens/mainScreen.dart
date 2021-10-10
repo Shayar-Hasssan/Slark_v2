@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/modalChat.dart';
+import 'package:slark_v2/components/newProject.dart';
+import 'package:slark_v2/components/newSpace.dart';
+import 'package:slark_v2/components/newTeamDialog.dart';
+import 'package:slark_v2/components/newWorkspaceDialog.dart';
 import 'package:slark_v2/components/project_summery.dart';
 import 'package:slark_v2/components/spaces.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/mail.dart';
 import 'package:slark_v2/screens/projects.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -21,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   String chosenSpace = '';
   double xoffset = 0;
   double yoffset = 0;
+  List<String> createNew = ['Workspace', 'Space', 'Project', 'Team'];
 
   bool isDrawerOpen = false;
 
@@ -87,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
                               height: 40.0,
                               width: 40.0,
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/images/profile.png'),
+                              image: AssetImage('assets/images/user.png'),
                             ),
                           ),
                         ),
@@ -130,12 +136,37 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     //New Project/Space
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                          size: 25.0,
-                        )),
+                    PopupMenuButton(
+                      icon: Icon(Icons.add),
+                      itemBuilder: (context) {
+                        return createNew.map((option) {
+                          return PopupMenuItem(
+                            value: option,
+                            child: Text(option),
+                          );
+                        }).toList();
+                      },
+                      onSelected: (option) {
+                        print(option);
+                        if (option == 'Workspace') {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewWS());
+                        } else if (option == 'Space') {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewSpace());
+                        } else if (option == 'Project') {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewProject());
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewTeam());
+                        }
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -165,7 +196,8 @@ class _MainScreenState extends State<MainScreen> {
                 IconButton(
                   onPressed: () {
                     print('Space');
-                    showModal();
+                    // showSheet();
+                    showSheet();
                   },
                   icon: Icon(
                     Icons.arrow_right,
@@ -280,16 +312,14 @@ class _MainScreenState extends State<MainScreen> {
                         shape: BoxShape.circle,
                       ),
                       // ignore: deprecated_member_use
-                      child: FlatButton(
-                        onPressed: () {
+                      child: InkWell(
+                        onTap: () {
                           print('Helllo');
                           openBottomSheet();
                         },
-                        child: Image(
-                          height: 30.0,
-                          width: 30.0,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/profile.png'),
+                        child: CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: AssetImage('assets/images/u1.jpg'),
                         ),
                       ),
                     ),
@@ -320,15 +350,14 @@ class _MainScreenState extends State<MainScreen> {
                         shape: BoxShape.circle,
                       ),
                       // ignore: deprecated_member_use
-                      child: FlatButton(
-                        onPressed: () {
+                      child: InkWell(
+                        onTap: () {
                           print('Helllo');
+                          openBottomSheet();
                         },
-                        child: Image(
-                          height: 30.0,
-                          width: 30.0,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/profile.png'),
+                        child: CircleAvatar(
+                          radius: 40.0,
+                          backgroundImage: AssetImage('assets/images/u3.jpg'),
                         ),
                       ),
                     ),
@@ -386,10 +415,12 @@ class _MainScreenState extends State<MainScreen> {
                         // ignore: deprecated_member_use
                         FlatButton(
                           onPressed: () {
+                            var title = 'All Projects';
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ProjectsScreen()),
+                                  builder: (context) =>
+                                      ProjectsScreen(title: title)),
                             );
                           },
                           child: Text(
@@ -441,63 +472,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  showModal() {
-    return showModalBottomSheet(
-        context: context,
-        barrierColor: Colors.black38,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        builder: (BuildContext context) {
-          double height = MediaQuery.of(context).size.height;
-
-          return Container(
-            height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 0.8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text('Spaces'),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    child: ListView(
-                      children: [
-                        Spaces(),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
   void openBottomSheet() {
     showModalBottomSheet(
         context: context,
@@ -506,4 +480,85 @@ class _MainScreenState extends State<MainScreen> {
           return ModalChat();
         });
   }
+
+  Future showSheet() => showSlidingBottomSheet(
+        context,
+        builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: SnapSpec(
+            initialSnap: 0.7,
+            snappings: [0.4, 0.7, 1],
+          ),
+          builder: buildSheet,
+        ),
+      );
+  Widget buildSheet(context, state) => Material(
+          child: ListView(
+        shrinkWrap: true,
+        primary: false,
+        padding: EdgeInsets.only(top: 2.0, bottom: 8.0),
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.blue[50],
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20.0),
+                  bottomRight: Radius.circular(20.0)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, top: 8.0, right: 8.0, bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'Spaces',
+                      style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      shape: StadiumBorder(),
+                      padding: EdgeInsets.symmetric(horizontal: 7.0),
+                    ),
+                    // ignore: deprecated_member_use
+                    child: RaisedButton.icon(
+                      color: Colors.blue,
+                      elevation: 0.0,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'New',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // SizedBox(
+          //   height: 10.0,
+          // ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: Spaces(),
+            ),
+          ),
+        ],
+      ));
 }

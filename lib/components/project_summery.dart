@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/components/modalChat.dart';
+import 'package:slark_v2/screens/Kanbanboard.dart';
+import 'package:slark_v2/screens/gantt.dart';
+import 'package:slark_v2/screens/mail.dart';
 import 'package:slark_v2/screens/projectOverview.dart';
 
 import '../constraints.dart';
@@ -42,7 +46,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Project Name',
+                      'Slark Project',
                       style: GoogleFonts.poppins(
                         color: Color(0xff4d3a58),
                         fontWeight: FontWeight.w500,
@@ -60,7 +64,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "40%",
+                            "90%",
                             style: GoogleFonts.poppins(
                               color: Color(0xff4d3a58),
                               fontWeight: FontWeight.w500,
@@ -68,7 +72,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                             ),
                           ),
                           LinearProgressIndicator(
-                            value: 0.4,
+                            value: 0.9,
                             backgroundColor: Colors.blue[100],
                             minHeight: 5.0,
                             valueColor:
@@ -132,6 +136,8 @@ class _ProjectSummeryState extends State<ProjectSummery> {
   }
 
   void sheet() {
+    List<String> pOptions = ['Chat', 'Ganttchart', 'BoardView'];
+    var selectedOption;
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -167,14 +173,57 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                         ),
                       ),
                       Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.more_horiz,
-                          size: ScreenUtil().setHeight(24.0),
-                        ),
-                        color: Colors.white,
+                      PopupMenuButton(
+                        itemBuilder: (context) {
+                          return pOptions.map((option) {
+                            return PopupMenuItem(
+                              value: option,
+                              child: Text(option),
+                            );
+                          }).toList();
+                        },
+                        onSelected: (option) {
+                          setState(() {
+                            selectedOption = option;
+                          });
+                          print(selectedOption);
+                          if (option == 'Chat') {
+                            Navigator.pop(context);
+                            //TODO
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ModalChat(),
+                              ),
+                            );
+                          } else if (option == 'Ganttchart') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GanttChart(),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => KanbanBoard(),
+                              ),
+                            );
+                          }
+                        },
+                        icon: Icon(Icons.more_horiz, color: Colors.white),
                       ),
+                      // IconButton(
+                      //   onPressed: () {
+
+                      //   },
+                      //   icon: Icon(
+                      //     Icons.more_horiz,
+                      //     size: ScreenUtil().setHeight(24.0),
+                      //   ),
+                      //   color: Colors.white,
+                      // ),
                     ],
                   ),
                 ),

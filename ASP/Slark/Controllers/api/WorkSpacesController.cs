@@ -204,6 +204,7 @@ namespace Slark.Controllers
 
 
 
+
         [ResponseType(typeof(WorkSpace))]
         public IHttpActionResult PostWorkSpace(string name ,string id)
         {
@@ -217,98 +218,99 @@ namespace Slark.Controllers
             return Ok(wsm);
         }
         // PUT: api/WorkSpaces/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutWorkSpace(string id, WorkSpace workSpace)
+
+
+        [ResponseType(typeof(Space))]
+        public IHttpActionResult PostSpace(string name, string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != workSpace.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(workSpace).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkSpaceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            Space ws = new Space();
+            ws.SpaceName = name;
+            ws.WsId = id;
+            ws.Id = Guid.NewGuid().ToString();
+            db.Spaces.Add(ws);
+            db.SaveChanges();
+            return Ok();
         }
+        // PUT: api/WorkSpaces/5
 
-        // POST: api/WorkSpaces
-        [ResponseType(typeof(WorkSpace))]
-        public IHttpActionResult PostWorkSpace(WorkSpace workSpace)
+        [ResponseType(typeof(Project))]
+        public IHttpActionResult Postproject(string name, string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.WorkSpaces.Add(workSpace);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (WorkSpaceExists(workSpace.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = workSpace.Id }, workSpace);
-        }
-
-        // DELETE: api/WorkSpaces/5
-        [ResponseType(typeof(WorkSpace))]
-        public IHttpActionResult DeleteWorkSpace(string id)
-        {
-            WorkSpace workSpace = db.WorkSpaces.Find(id);
-            if (workSpace == null)
-            {
-                return NotFound();
-            }
-
-            db.WorkSpaces.Remove(workSpace);
+            Project ws = new Project();
+            ws.Name = name;
+            ws.SpaceId = id;
+            ws.Id = Guid.NewGuid().ToString();
+            db.Projects.Add(ws);
             db.SaveChanges();
 
-            return Ok(workSpace);
+            return Ok();
         }
 
-        protected override void Dispose(bool disposing)
+        [ResponseType(typeof(Team))]
+        public IHttpActionResult Postteam(string name, string id)
         {
-            if (disposing)
+            Team ws = new Team();
+            ws.Name = name;
+            ws.WsId = id;
+            ws.Id = Guid.NewGuid().ToString();
+            db.Teams.Add(ws);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+
+        public void calc(string[] args)
+        {
+             char[] COLON = { ':' };
+             char[] SEMI_COLON = { ';' };
+             char[] COMMA = { ',' };
+             char[] BRACE = { ']' };
+            int step = 0;
+
+            List<Activity> i = new List<Activity>();
+            Console.Write("Enter input: ");
+            string s = Console.ReadLine().Replace("[", null);
+            foreach (string x in s.Split(BRACE, StringSplitOptions.RemoveEmptyEntries))
             {
-                db.Dispose();
+                string[] y = x.Split(SEMI_COLON);
+                Activity n = new Activity(x.Split(COLON)[0], Int32.Parse(y[0].Split(COLON)[1]));
+                n.Name = x.Split(COLON)[0];
+                n.Dependencies = (y.Length > 1) ? y[1].Split(COMMA).ToList() : new List<string>();
+                i.Add(n);
             }
-            base.Dispose(disposing);
-        }
 
-        private bool WorkSpaceExists(string id)
-        {
-            return db.WorkSpaces.Count(e => e.Id == id) > 0;
+            do
+            {
+                List<string> d = i.Where(x => x.Done()).Select(y => y.Name).ToList();
+                foreach (Activity working in i.Where(x => x.Dependencies.Except(d).Count() == 0 && !x.Done())) working.Step(step);
+                step++;
+            } while (i.Count(x => !x.Done()) > 0);
+
+            foreach (Activity a in i)
+            {
+                Activity next = i.OrderBy(x => x.EFinish).Where(x => x.Dependencies.Contains(a.Name)).FirstOrDefault();
+                a.LFinish = (next == null) ? a.EFinish : next.EStart;
+                a.LStart = a.LFinish - a.Duration;
+            }
+
+            Console.WriteLine(" name | estart | efinish | lstart | lfinish | critical");
+            Console.WriteLine("------+--------+---------+--------+---------+----------");
+            foreach (Activity a in i)
+            {
+                Console.Write(a.Name.PadLeft(5) + " |");
+                Console.Write(a.EStart.ToString().PadLeft(7) + " |");
+                Console.Write(a.EFinish.ToString().PadLeft(8) + " |");
+                Console.Write(a.LStart.ToString().PadLeft(7) + " |");
+                Console.Write(a.LFinish.ToString().PadLeft(8) + " |");
+                string critical = (a.LFinish - a.EFinish == 0 && a.LStart - a.EStart == 0) ? "Y" : "N";
+                Console.WriteLine(critical.PadLeft(9));
+            }
+            Console.WriteLine("Hit any key to exit.");
+            Console.ReadKey();
         }
     }
+
+
 }

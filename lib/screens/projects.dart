@@ -4,13 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/project_summery.dart';
 
 class ProjectsScreen extends StatefulWidget {
-  const ProjectsScreen({Key? key}) : super(key: key);
+  const ProjectsScreen({Key? key, required this.title}) : super(key: key);
 
   @override
   _ProjectsScreenState createState() => _ProjectsScreenState();
+  final String title;
 }
 
 class _ProjectsScreenState extends State<ProjectsScreen> {
+  List<String> options = ['All Projects', 'Active Projects', 'Completed'];
+  var selectedOption;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                               icon: Icon(Icons.arrow_left)),
                           Spacer(),
                           Text(
-                            "All Projects",
+                            "${widget.title}",
                             style: GoogleFonts.poppins(
                               color: Color(0xff4d3a58),
                               fontWeight: FontWeight.w600,
@@ -60,8 +63,68 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           ),
                           Spacer(),
                           // ignore: deprecated_member_use
-                          IconButton(
-                              onPressed: () {}, icon: Icon(Icons.more_vert))
+                          PopupMenuButton(
+                            color: Colors.blue[50],
+                            iconSize: 15,
+                            itemBuilder: (context) {
+                              return options.map((option) {
+                                return PopupMenuItem(
+                                  value: option,
+                                  child: Text(option),
+                                );
+                              }).toList();
+                            },
+                            onSelected: (option) {
+                              setState(() {
+                                selectedOption = option;
+                              });
+                              print(selectedOption);
+                              if (option == 'All Projects') {
+                                setState(() {
+                                  selectedOption = option;
+                                });
+                                Navigator.pop(context);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProjectsScreen(title: selectedOption),
+                                  ),
+                                );
+                              } else if (option == 'Completed') {
+                                setState(() {
+                                  selectedOption = option;
+                                });
+                                Navigator.pop(context);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProjectsScreen(title: selectedOption),
+                                  ),
+                                );
+                              } else {
+                                setState(() {
+                                  selectedOption = option;
+                                });
+                                Navigator.pop(context);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProjectsScreen(title: selectedOption),
+                                  ),
+                                );
+                              }
+                            },
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: Colors.black,
+                            ),
+                          ),
                         ],
                       ),
                     ),

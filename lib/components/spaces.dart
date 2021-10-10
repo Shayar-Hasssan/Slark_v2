@@ -9,37 +9,55 @@ class Spaces extends StatefulWidget {
 }
 
 class _SpacesState extends State<Spaces> {
-  var spaces = ['spaceyy', 'space n', 'space jk', 'space bm'];
+  var spaces = [
+    'spaceyy',
+    'space n',
+    'space jk',
+    'space bm',
+    'SSppp',
+    'spaceyy',
+    'space n',
+    'space jk',
+    'space bm',
+    'SSppp'
+  ];
+  // var spaces = [];
   @override
-  Widget build(BuildContext context) =>
-      spaces.isEmpty ? Text('NO Spaces Yet') : spaceWid(spaces);
+  Widget build(BuildContext context) => spaces.isEmpty
+      ? Text('NO Spaces Yet')
+      : ListView.builder(
+          itemCount: spaces.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+                padding: const EdgeInsets.all(5.0),
+                child:
+                    // Text(
+                    // 'calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.calculateDistanceToLeftBorder: return how many months between the fromDate and the starting point of the presenting project. If it had been already started before the fromDate, it will be display just at the left border with the remaining length.'),
+                    Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white54)),
+                  child: ListTile(
+                      title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${spaces[index]}'),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ))
+                    ],
+                  )),
+                )
+                // ListTile(
 
-  Widget spaceWid(List spaces) {
-    if (spaces.length > 0) {
-      for (var space in spaces) {
-        return spaceList(space);
-      }
-    }
-    return Text('Spaces');
-  }
-
-  spaceList(space) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: ScreenUtil().setWidth(30.0),
-        right: ScreenUtil().setWidth(30.0),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(color: Color(0xFFE0E0E0)),
-        ),
-        child: ListTile(
-          title: Text('$space'),
-          subtitle: Text('3 Projects'),
-        ),
-      ),
-    );
-  }
+                //     // trailing: Text(
+                //     //   spaces[index],
+                //     //   style: TextStyle(color: Colors.green, fontSize: 15),
+                //     // ),
+                //     title: Text(spaces[index])),
+                );
+          });
 }

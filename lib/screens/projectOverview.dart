@@ -5,6 +5,8 @@ import 'package:slark_v2/components/memberImage.dart';
 import 'package:slark_v2/components/moreMembers.dart';
 import 'package:slark_v2/components/tasksCards.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/screens/Kanbanboard.dart';
+import 'package:slark_v2/screens/tasks.dart';
 
 class SheetView extends StatefulWidget {
   const SheetView({Key? key}) : super(key: key);
@@ -15,6 +17,11 @@ class SheetView extends StatefulWidget {
 
 class _SheetViewState extends State<SheetView> {
   bool memberOver4 = true;
+  var taskOptions = [
+    'My Tasks',
+    'Add Task',
+    'Progress',
+  ];
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,13 +48,30 @@ class _SheetViewState extends State<SheetView> {
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(20.0),
               ),
-              child: Text(
-                'Project Name',
-                style: GoogleFonts.poppins(
-                  color: Color(0xff4d3a58),
-                  fontWeight: FontWeight.w700,
-                  fontSize: ScreenUtil().setSp(26.0),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Slark Project',
+                    style: GoogleFonts.poppins(
+                      color: Color(0xff4d3a58),
+                      fontWeight: FontWeight.w700,
+                      fontSize: ScreenUtil().setSp(26.0),
+                    ),
+                  ),
+                  Container(
+                    height: 15.0,
+                    // ignore: deprecated_member_use
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.done,
+                        color: Colors.grey,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -157,14 +181,24 @@ class _SheetViewState extends State<SheetView> {
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(20.0),
               ),
-              child: Wrap(
-                spacing: 20.0,
+              child: Column(
                 children: [
-                  MemberImg(),
-                  MemberImg(),
-                  MemberImg(),
-                  Visibility(
-                    child: MoreMembers(),
+                  Wrap(
+                    spacing: 20.0,
+                    children: [
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      MemberImg(
+                        image: 'assets/images/profile.png',
+                      ),
+                      Visibility(
+                        child: MoreMembers(),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -188,11 +222,38 @@ class _SheetViewState extends State<SheetView> {
                       fontSize: ScreenUtil().setSp(18.0),
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.more_horiz,
-                      )),
+                  PopupMenuButton(
+                    itemBuilder: (context) {
+                      return taskOptions.map((option) {
+                        return PopupMenuItem(
+                          value: option,
+                          child: Text(option),
+                        );
+                      }).toList();
+                    },
+                    onSelected: (option) {
+                      if (option == 'Progress') {
+                        Navigator.pop(context);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => KanbanBoard(),
+                          ),
+                        );
+                      } else if (option == 'My Tasks') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TasksScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    icon: Icon(
+                      Icons.more_horiz,
+                    ),
+                  ),
                 ],
               ),
             ),
