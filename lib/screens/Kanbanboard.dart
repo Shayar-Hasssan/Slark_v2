@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:slark_v2/components/kanbanView.dart';
 import 'package:slark_v2/components/customAppbar.dart';
+import 'package:slark_v2/components/newKanbanCard.dart';
 import 'package:slark_v2/constraints.dart';
 
 class KanbanBoard extends StatefulWidget {
@@ -22,7 +23,11 @@ class _KanbanBoardState extends State<KanbanBoard> {
       ),
       body: KanbanView(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => NewKanbanCard());
+        },
         child: Icon(Icons.receipt),
       ),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/memberImage.dart';
+import 'package:slark_v2/components/newTeamDialog.dart';
+import 'package:slark_v2/components/newWorkspaceDialog.dart';
 import 'package:slark_v2/components/workspaces.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/mail.dart';
@@ -32,7 +34,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     child: Image(
                       fit: BoxFit.cover,
                       image: AssetImage(
-                        'assets/images/profile.png',
+                        'assets/images/user.png',
                       ),
                     ),
                   ),
@@ -173,10 +175,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         'Teams',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25.0),
+                            color: textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0),
                       ),
                       FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewTeam());
+                        },
                         elevation: 0.0,
                         backgroundColor: Colors.blue[300],
                         child: Icon(Icons.add),
@@ -394,7 +402,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             fontWeight: FontWeight.bold, fontSize: 25.0),
                       ),
                       FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => NewWS());
+                        },
                         elevation: 0.0,
                         backgroundColor: Colors.blue[300],
                         child: Icon(Icons.add),

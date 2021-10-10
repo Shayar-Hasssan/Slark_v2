@@ -61,16 +61,6 @@ class _NewTeamState extends State<NewTeam> {
                               'ex. example1@example.com example2@example.com',
                         ),
                       ),
-                      // Container(
-                      //   height: 100.0,
-                      //   child: ListView.builder(
-                      //     itemCount: teams.length,
-                      //     itemBuilder: (BuildContext ctx, int index) => EntryItem(
-                      //       teams[index],
-                      //     ),
-                      //   ),
-                      // ),
-
                       SizedBox(
                         height: 20.0,
                       ),

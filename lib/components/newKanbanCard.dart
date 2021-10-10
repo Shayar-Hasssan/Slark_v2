@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:slark_v2/components/entryItem.dart';
+import 'package:slark_v2/components/rounded_input.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
 
-class NewMember extends StatefulWidget {
-  const NewMember({Key? key, this.worksapce}) : super(key: key);
+class NewKanbanCard extends StatefulWidget {
+  const NewKanbanCard({Key? key}) : super(key: key);
 
   @override
-  _NewMemberState createState() => _NewMemberState();
-  final String? worksapce;
+  _NewKanbanCardState createState() => _NewKanbanCardState();
 }
 
-class _NewMemberState extends State<NewMember> {
+class _NewKanbanCardState extends State<NewKanbanCard> {
+  List<String> tasks = ['task1', 'task2', 'task3', 'task4'];
+  var selectedTask = 'Select a Task';
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -23,7 +25,7 @@ class _NewMemberState extends State<NewMember> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
-              height: 250,
+              height: 350,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 30.0, 10, 10),
                 child: Column(
@@ -33,7 +35,7 @@ class _NewMemberState extends State<NewMember> {
                     ),
                     Center(
                       child: Text(
-                        'New Member',
+                        'New Card',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25.0,
@@ -42,14 +44,47 @@ class _NewMemberState extends State<NewMember> {
                       ),
                     ),
                     SizedBox(
-                      height: 15.0,
+                      height: 35.0,
                     ),
-                    TextField(),
+                    RoundedInput(
+                      hint: 'Card Name',
+                    ),
                     SizedBox(
                       height: 15.0,
                     ),
+                    Container(
+                      width: 120.0,
+                      color: Colors.blue[50],
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: PopupMenuButton(
+                            itemBuilder: (context) {
+                              return tasks.map((option) {
+                                return PopupMenuItem(
+                                  value: option,
+                                  child: Text(option),
+                                );
+                              }).toList();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '$selectedTask',
+                                  style: TextStyle(fontSize: 18.0),
+                                ),
+                                Icon(Icons.arrow_drop_down),
+                              ],
+                            ),
+                            onSelected: (option) {
+                              setState(() {
+                                selectedTask = option.toString();
+                              });
+                            }),
+                      ),
+                    ),
                     SizedBox(
-                      height: 20.0,
+                      height: 35.0,
                     ),
                     Row(
                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,12 +94,14 @@ class _NewMemberState extends State<NewMember> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
+                          // color: Colors.red,
                           child: Text(
                             "Cancel",
                             style: TextStyle(color: Colors.red, fontSize: 18.0),
                           ),
                         ),
                         FlatButton(
+                          // color: kPrimaryColor,
                           onPressed: () {
                             print(MediaQuery.of(context).size.height);
                             print(MediaQuery.of(context).size.height / 2);

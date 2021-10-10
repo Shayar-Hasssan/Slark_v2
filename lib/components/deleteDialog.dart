@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/constraints.dart';
-import 'package:slark_v2/screens/chooseWs.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
-class NewMember extends StatefulWidget {
-  const NewMember({Key? key, this.worksapce}) : super(key: key);
+class DeleteDialogue extends StatefulWidget {
+  const DeleteDialogue({Key? key}) : super(key: key);
 
   @override
-  _NewMemberState createState() => _NewMemberState();
-  final String? worksapce;
+  _DeleteDialogueState createState() => _DeleteDialogueState();
 }
 
-class _NewMemberState extends State<NewMember> {
+class _DeleteDialogueState extends State<DeleteDialogue> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -29,11 +27,12 @@ class _NewMemberState extends State<NewMember> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 10.0,
+                      height: 30.0,
                     ),
                     Center(
                       child: Text(
-                        'New Member',
+                        'Are You Sure You Want To Delete This?',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25.0,
@@ -42,14 +41,7 @@ class _NewMemberState extends State<NewMember> {
                       ),
                     ),
                     SizedBox(
-                      height: 15.0,
-                    ),
-                    TextField(),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    SizedBox(
-                      height: 20.0,
+                      height: 40.0,
                     ),
                     Row(
                       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,18 +51,20 @@ class _NewMemberState extends State<NewMember> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
+                          // color: Colors.red,
                           child: Text(
                             "Cancel",
                             style: TextStyle(color: Colors.red, fontSize: 18.0),
                           ),
                         ),
                         FlatButton(
+                          // color: kPrimaryColor,
                           onPressed: () {
                             print(MediaQuery.of(context).size.height);
                             print(MediaQuery.of(context).size.height / 2);
                           },
                           child: Text(
-                            "Create",
+                            "Yes",
                             style:
                                 TextStyle(color: kPrimaryColor, fontSize: 18.0),
                           ),
@@ -84,13 +78,14 @@ class _NewMemberState extends State<NewMember> {
           ),
           Positioned(
             child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              radius: 70.0,
-              child: Image(
-                image: AssetImage('assets/images/profile.png'),
-              ),
-            ),
-            top: -75,
+                backgroundColor: Colors.red,
+                radius: 40.0,
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                  size: 40.0,
+                )),
+            top: -30,
           )
         ],
       ),

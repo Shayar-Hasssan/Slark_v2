@@ -196,7 +196,6 @@ class _MainScreenState extends State<MainScreen> {
                 IconButton(
                   onPressed: () {
                     print('Space');
-                    // showSheet();
                     showSheet();
                   },
                   icon: Icon(
@@ -524,7 +523,9 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('Hi');
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: StadiumBorder(),
                       padding: EdgeInsets.symmetric(horizontal: 7.0),
@@ -533,7 +534,11 @@ class _MainScreenState extends State<MainScreen> {
                     child: RaisedButton.icon(
                       color: Colors.blue,
                       elevation: 0.0,
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => NewSpace());
+                      },
                       icon: Icon(
                         Icons.add,
                         color: Colors.white,
@@ -549,9 +554,6 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          // SizedBox(
-          //   height: 10.0,
-          // ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Container(

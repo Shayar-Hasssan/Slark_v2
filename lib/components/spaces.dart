@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:slark_v2/components/deleteDialog.dart';
 
 class Spaces extends StatefulWidget {
   const Spaces({Key? key}) : super(key: key);
@@ -43,7 +44,12 @@ class _SpacesState extends State<Spaces> {
                     children: [
                       Text('${spaces[index]}'),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    DeleteDialogue());
+                          },
                           icon: Icon(
                             Icons.delete,
                             color: Colors.red,
