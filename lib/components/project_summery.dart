@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/modalChat.dart';
 import 'package:slark_v2/screens/Kanbanboard.dart';
 import 'package:slark_v2/screens/gantt.dart';
+import 'package:slark_v2/screens/ganttchart.dart';
 import 'package:slark_v2/screens/mail.dart';
 import 'package:slark_v2/screens/projectOverview.dart';
 
@@ -200,7 +201,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => GanttChart(),
+                                builder: (context) => GanttChartScreen(),
                               ),
                             );
                           } else {

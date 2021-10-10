@@ -11,7 +11,6 @@ class ChooseWs extends StatefulWidget {
 }
 
 class _ChooseWsState extends State<ChooseWs> {
-  List<String> worskspaces = ['ws1', 'ws2', 'ws3'];
   // List<Item>? _data;
 
   @override

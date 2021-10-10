@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:slark_v2/components/customAppBar.dart';
 import 'package:slark_v2/models/guntmodel.dart';
 import 'package:date_utils/date_utils.dart';
 import 'dart:math';
 
-class GranttChartScreen extends StatefulWidget {
+class GanttChartScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new GranttChartScreenState();
+    return new GanttChartScreenState();
   }
 }
 
-class GranttChartScreenState extends State<GranttChartScreen>
+class GanttChartScreenState extends State<GanttChartScreen>
     with TickerProviderStateMixin {
   late AnimationController animationController;
 
@@ -40,8 +41,11 @@ class GranttChartScreenState extends State<GranttChartScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('GANTT CHART'),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: CustomAppBar(
+          title: 'Gantt Chart',
+        ),
       ),
       body: GestureDetector(
         onTap: () {
