@@ -7,6 +7,7 @@ import 'package:slark_v2/components/newTeamDialog.dart';
 import 'package:slark_v2/components/newWorkspaceDialog.dart';
 import 'package:slark_v2/components/workspaces.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/screens/dashboard.dart';
 import 'package:slark_v2/screens/mail.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
@@ -95,6 +96,24 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 onTap: () {
                   showTeamsSheet();
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.dashboard,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'Dashboard',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: ScreenUtil().setSp(14.0),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Dashboard()));
                 },
               ),
               ListTile(
