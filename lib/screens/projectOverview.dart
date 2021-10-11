@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/memberImage.dart';
 import 'package:slark_v2/components/moreMembers.dart';
+import 'package:slark_v2/components/newTaskDialog.dart';
 import 'package:slark_v2/components/tasksCards.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/Kanbanboard.dart';
@@ -245,9 +246,15 @@ class _SheetViewState extends State<SheetView> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => TasksScreen(),
+                            builder: (context) => TasksScreen(
+                              title: 'My Tasks',
+                            ),
                           ),
                         );
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => NewTask());
                       }
                     },
                     icon: Icon(

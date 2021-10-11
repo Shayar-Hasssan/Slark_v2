@@ -44,170 +44,175 @@ class _TaskSheetViewState extends State<TaskSheetView> {
             topRight: Radius.circular(30.0),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: ScreenUtil().setHeight(30.0),
-            ),
-            //Title
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(20.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: ScreenUtil().setHeight(30.0),
               ),
-              child: Text(
-                'Task Name',
-                style: GoogleFonts.poppins(
-                  color: Color(0xff4d3a58),
-                  fontWeight: FontWeight.w700,
-                  fontSize: ScreenUtil().setSp(26.0),
+              //Title
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(20.0),
+                ),
+                child: Text(
+                  'Task Name',
+                  style: GoogleFonts.poppins(
+                    color: Color(0xff4d3a58),
+                    fontWeight: FontWeight.w700,
+                    fontSize: ScreenUtil().setSp(26.0),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(30.0),
-            ),
-            //Progress
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(20.0),
+              SizedBox(
+                height: ScreenUtil().setHeight(30.0),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'In Progress',
-                        style: GoogleFonts.poppins(
-                          color: Colors.yellow[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: ScreenUtil().setSp(12.0),
+              //Progress
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(20.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'In Progress',
+                          style: GoogleFonts.poppins(
+                            color: Colors.yellow[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: ScreenUtil().setSp(12.0),
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          '40%',
+                          style: GoogleFonts.poppins(
+                            color: Colors.yellow[700],
+                            fontWeight: FontWeight.w500,
+                            fontSize: ScreenUtil().setSp(12.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(10.0),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: LinearProgressIndicator(
+                        value: 0.4,
+                        backgroundColor: Colors.grey[300],
+                        minHeight: 5.0,
+                        valueColor: new AlwaysStoppedAnimation(kPrimaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(30.0),
+              ),
+              //Date
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: ScreenUtil().setWidth(20.0)),
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.date_range_outlined,
+                          color: kPrimaryColor,
+                          size: ScreenUtil().setHeight(24.0),
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        '40%',
-                        style: GoogleFonts.poppins(
-                          color: Colors.yellow[700],
-                          fontWeight: FontWeight.w500,
-                          fontSize: ScreenUtil().setSp(12.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(10.0),
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: LinearProgressIndicator(
-                      value: 0.4,
-                      backgroundColor: Colors.grey[300],
-                      minHeight: 5.0,
-                      valueColor: new AlwaysStoppedAnimation(kPrimaryColor),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(30.0),
-            ),
-            //Date
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20.0)),
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      shape: BoxShape.circle,
+                    SizedBox(
+                      width: ScreenUtil().setWidth(15.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.date_range_outlined,
-                        color: kPrimaryColor,
-                        size: ScreenUtil().setHeight(24.0),
+                    Text(
+                      "Nov 12, at 9:00 AM",
+                      style: GoogleFonts.poppins(
+                        color: Color(0xff4d3a58),
+                        fontSize: ScreenUtil().setSp(14.0),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(40.0),
+              ),
+              //Members
+              Padding(
+                padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(20.0),
+                ),
+                child: Text(
+                  "Member Assigned To",
+                  style: GoogleFonts.poppins(
+                    color: Color(0xff4d3a58),
+                    fontWeight: FontWeight.w600,
+                    fontSize: ScreenUtil().setSp(18.0),
                   ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(15.0),
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(10.0),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(20.0),
+                ),
+                child: Wrap(
+                  spacing: 20.0,
+                  children: [
+                    MemberImg(
+                      image: 'assets/images/u1.jpg',
+                    ),
+                    Visibility(
+                      child: MoreMembers(),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(100.0),
+              ),
+              ListTile(
+                // ignore: deprecated_member_use
+                title: RaisedButton.icon(
+                  color: Colors.blue[200],
+                  onPressed: () {
+                    setState(() {
+                      completedTask = !completedTask;
+                      statusColor();
+                    });
+                  },
+                  icon: Icon(
+                    Icons.done,
+                    color: markColor,
+                    size: 35.0,
                   ),
-                  Text(
-                    "Nov 12, at 9:00 AM",
-                    style: GoogleFonts.poppins(
-                      color: Color(0xff4d3a58),
-                      fontSize: ScreenUtil().setSp(14.0),
+                  label: Text(
+                    'Mark as Completed',
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(40.0),
-            ),
-            //Members
-            Padding(
-              padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(20.0),
-              ),
-              child: Text(
-                "Member Assigned To",
-                style: GoogleFonts.poppins(
-                  color: Color(0xff4d3a58),
-                  fontWeight: FontWeight.w600,
-                  fontSize: ScreenUtil().setSp(18.0),
                 ),
               ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(10.0),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(20.0),
-              ),
-              child: Wrap(
-                spacing: 20.0,
-                children: [
-                  MemberImg(),
-                  Visibility(
-                    child: MoreMembers(),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setHeight(20.0),
-            ),
-            ListTile(
-              // ignore: deprecated_member_use
-              title: RaisedButton.icon(
-                color: Colors.blue[200],
-                onPressed: () {
-                  setState(() {
-                    completedTask = !completedTask;
-                    statusColor();
-                  });
-                },
-                icon: Icon(
-                  Icons.done,
-                  color: markColor,
-                  size: 35.0,
-                ),
-                label: Text(
-                  'Mark as Completed',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

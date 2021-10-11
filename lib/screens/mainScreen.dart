@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/components/chatScreen.dart';
 import 'package:slark_v2/components/modalChat.dart';
 import 'package:slark_v2/components/newProject.dart';
 import 'package:slark_v2/components/newSpace.dart';
@@ -314,7 +315,12 @@ class _MainScreenState extends State<MainScreen> {
                       child: InkWell(
                         onTap: () {
                           print('Helllo');
-                          openBottomSheet();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatScreen(),
+                            ),
+                          );
                         },
                         child: CircleAvatar(
                           radius: 40.0,
@@ -352,7 +358,12 @@ class _MainScreenState extends State<MainScreen> {
                       child: InkWell(
                         onTap: () {
                           print('Helllo');
-                          openBottomSheet();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatScreen(),
+                            ),
+                          );
                         },
                         child: CircleAvatar(
                           radius: 40.0,
@@ -471,6 +482,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+//chat
   void openBottomSheet() {
     showModalBottomSheet(
         context: context,
@@ -480,6 +492,7 @@ class _MainScreenState extends State<MainScreen> {
         });
   }
 
+//Spaces
   Future showSheet() => showSlidingBottomSheet(
         context,
         builder: (context) => SlidingSheetDialog(

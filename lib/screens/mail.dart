@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/components/chatScreen.dart';
 import 'package:slark_v2/components/modalChat.dart';
+import 'package:slark_v2/components/rounded_input.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class MailScreen extends StatefulWidget {
   const MailScreen({Key? key}) : super(key: key);
@@ -80,7 +83,9 @@ class _MailScreenState extends State<MailScreen> {
                         CircleAvatar(
                           backgroundColor: Colors.white,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showNewChatSheet();
+                            },
                             icon: Icon(Icons.add),
                           ),
                         )
@@ -222,7 +227,12 @@ class _MailScreenState extends State<MailScreen> {
             ),
             InkWell(
               onTap: () {
-                openBottomSheet();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(),
+                  ),
+                );
               },
               child: Container(
                 height: 95.0,
@@ -292,7 +302,14 @@ class _MailScreenState extends State<MailScreen> {
             ),
             SizedBox(height: 10.0),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(),
+                  ),
+                );
+              },
               child: Container(
                 height: 95.0,
                 width: 350,
@@ -361,7 +378,14 @@ class _MailScreenState extends State<MailScreen> {
             ),
             SizedBox(height: 10.0),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(),
+                  ),
+                );
+              },
               child: Container(
                 height: 95.0,
                 width: 350,
@@ -430,7 +454,14 @@ class _MailScreenState extends State<MailScreen> {
             ),
             SizedBox(height: 10.0),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(),
+                  ),
+                );
+              },
               child: Container(
                 height: 95.0,
                 width: 350,
@@ -504,12 +535,95 @@ class _MailScreenState extends State<MailScreen> {
     );
   }
 
-  void openBottomSheet() {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (BuildContext bc) {
-          return Expanded(child: ModalChat());
-        });
-  }
+  void showNewChatSheet() => showSlidingBottomSheet(
+        context,
+        builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: SnapSpec(
+            initialSnap: 0.7,
+            snappings: [0.8, 0.7, 1],
+          ),
+          builder: buildProjectChatSheet,
+        ),
+      );
+
+  Widget buildProjectChatSheet(context, state) => Material(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView(
+            shrinkWrap: true,
+            primary: false,
+            padding: EdgeInsets.only(top: 2.0, bottom: 8.0),
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: RoundedInput(
+                    hint: 'User Name',
+                  ),
+                ),
+              ),
+              SizedBox(height: 35.0),
+              Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                      height: 60,
+                      width: double.infinity,
+                      color: Colors.white,
+                      child: Row(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  hintText: "Write message...",
+                                  hintStyle: TextStyle(color: Colors.black54),
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            backgroundColor: Colors.blue,
+                            elevation: 0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/components/deleteDialog.dart';
 import 'package:slark_v2/components/memberImage.dart';
 import 'package:slark_v2/components/newTeamDialog.dart';
 import 'package:slark_v2/components/newWorkspaceDialog.dart';
@@ -8,6 +9,8 @@ import 'package:slark_v2/components/workspaces.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/mail.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
+
+import 'newMember.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -401,15 +404,37 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 25.0),
                       ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) => NewWS());
-                        },
-                        elevation: 0.0,
-                        backgroundColor: Colors.blue[300],
-                        child: Icon(Icons.add),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        NewMember());
+                              },
+                              icon: Icon(
+                                Icons.person_add,
+                                color: kPrimaryColor,
+                              )),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => NewWS());
+                              },
+                              elevation: 0.0,
+                              backgroundColor: textColor,
+                              child: Icon(Icons.add),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -424,64 +449,155 @@ class _DrawerScreenState extends State<DrawerScreen> {
               Wrap(
                 spacing: 5.0,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0)),
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        Workspaces(),
-                        Text('Workspace', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Column(
+                          children: [
+                            Workspaces(),
+                            Text('Workspace', style: TextStyle(fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: -9,
+                        top: -15,
+                        child: IconButton(
+                            icon: Icon(Icons.minimize, color: Colors.red[800]),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      DeleteDialogue());
+                            }),
+                      ),
+                    ],
                   ),
                 ],
               ),

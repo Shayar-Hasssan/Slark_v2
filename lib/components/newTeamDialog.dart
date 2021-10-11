@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/components/input_container.dart';
@@ -13,6 +14,7 @@ class NewTeam extends StatefulWidget {
 }
 
 class _NewTeamState extends State<NewTeam> {
+  List<String>? members = [];
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -26,7 +28,7 @@ class _NewTeamState extends State<NewTeam> {
               padding: const EdgeInsets.all(12.0),
               child: Container(
                 // height: MediaQuery.of(context).size.height / 2,
-                height: 350,
+                height: MediaQuery.of(context).size.height - 250,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10, 30.0, 10, 10),
@@ -54,20 +56,66 @@ class _NewTeamState extends State<NewTeam> {
                       SizedBox(
                         height: 15.0,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Team Members Emails',
-                          hintText:
-                              'ex. example1@example.com example2@example.com',
+                      DropdownSearch<String>.multiSelection(
+                        validator: (List<String>? v) {
+                          return v == null || v.isEmpty
+                              ? "required field"
+                              : null;
+                        },
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Select Members",
+                          labelText: "Select Members",
+                          contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                          border: OutlineInputBorder(),
                         ),
+                        mode: Mode.MENU,
+                        showSelectedItems: false,
+                        items: ["member1", "member2", "member4", 'member5'],
+                        showClearButton: true,
+                        onChange: (member) {
+                          setState(() {
+                            members!.clear();
+                            members!.addAll(member);
+                          });
+                        },
+                        popupSelectionWidget:
+                            (cnt, String item, bool isSelected) {
+                          return isSelected
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green[500],
+                                )
+                              : Container();
+                        },
+                        clearButtonSplashRadius: 20,
+                        showSearchBox: true,
                       ),
                       SizedBox(
-                        height: 20.0,
+                        height: 30.0,
+                      ),
+                      DropdownSearch<String>(
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Select Leader",
+                          labelText: "Select Leader",
+                          contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                          border: OutlineInputBorder(),
+                        ),
+                        mode: Mode.MENU,
+                        showSelectedItems: true,
+                        items: members,
+                        showClearButton: true,
+                        onChanged: print,
+                        clearButtonSplashRadius: 20,
+                        showSearchBox: true,
+                      ),
+                      SizedBox(
+                        height: 40.0,
                       ),
                       Row(
                         // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // ignore: deprecated_member_use
                           FlatButton(
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -79,8 +127,8 @@ class _NewTeamState extends State<NewTeam> {
                                   TextStyle(color: Colors.red, fontSize: 18.0),
                             ),
                           ),
+                          // ignore: deprecated_member_use
                           FlatButton(
-                            // color: kPrimaryColor,
                             onPressed: () {
                               print(MediaQuery.of(context).size.height);
                               print(MediaQuery.of(context).size.height / 2);
