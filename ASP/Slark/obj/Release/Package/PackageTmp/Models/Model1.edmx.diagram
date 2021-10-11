@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5c9012d659a74c6eb323e3b3c24146b1" Name="Diagram1">
+        <EntityTypeShape EntityType="SlarkModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.AspNetRole" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.AspNetUser" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.ChatRoom" Width="1.5" PointX="8.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.File" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.PrivateMessage" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.Project" Width="1.5" PointX="6" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.ProjectStatu" Width="1.5" PointX="8.25" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.Space" Width="1.5" PointX="3.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.sysdiagram" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.Task" Width="1.5" PointX="10.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.TeamMember" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.TeamProject" Width="1.5" PointX="11.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.Team" Width="1.5" PointX="6" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.WorkSpace" Width="1.5" PointX="3.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlarkModel.WsManager" Width="1.5" PointX="8.25" PointY="11.875" IsExpanded="true" />
+        <AssociationConnector Association="SlarkModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_ChatRoom_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_PrivateMessage_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_PrivateMessage_AspNetUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_TeamMembers_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_WsManagers_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_ChatRoom_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_Projects_Spaces" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_ProjectStatus_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_Tasks_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_TeamProjects_Projects" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_Tasks_ProjectStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_Spaces_WorkSpaces" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_TeamMembers_Teams" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_TeamProjects_Teams" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_Teams_WorkSpaces" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.FK_WsManagers_WorkSpaces" ManuallyRouted="false" />
+        <AssociationConnector Association="SlarkModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SlarkModel.Wsmember" Width="1.5" PointX="10.375" PointY="3.75" />
+        <AssociationConnector Association="SlarkModel.FK_Wsmember_AspNetUsers" />
+        <AssociationConnector Association="SlarkModel.FK_Wsmember_WorkSpaces" />
+        <AssociationConnector Association="SlarkModel.FK_Tasks_AspNetUsers" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

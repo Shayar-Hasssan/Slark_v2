@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/rounded_button.dart';
 import 'package:slark_v2/components/rounded_input.dart';
 import 'package:slark_v2/components/rounded_password_input.dart';
 import 'package:slark_v2/screens/mainScreen.dart';
 import 'package:slark_v2/screens/splash.dart';
 
+import '../constraints.dart';
+import 'input_container.dart';
+
 class LoginForm extends StatelessWidget {
-  const LoginForm({
+  LoginForm({
     Key? key,
     required this.isLogin,
     required this.animationDuration,
@@ -18,6 +22,8 @@ class LoginForm extends StatelessWidget {
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +52,37 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 40.0),
-                RoundedInput(
-                  icon: Icons.mail,
-                  hint: 'Email',
+                InputContainer(
+                  child: TextField(
+                    cursorColor: kPrimaryColor,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.mail, color: kPrimaryColor),
+                      hintText: 'Email',
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
-                RoundedPasswordInput(
-                  hint: 'Password',
+                InputContainer(
+                  child: TextField(
+                    cursorColor: kPrimaryColor,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.lock, color: kPrimaryColor),
+                      hintText: "Password",
+                      border: InputBorder.none,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 10.0),
                 RoundedButton(
                     title: 'LOGIN',
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SplashScreen()));
+                      bloc.f_login(context, emailController.text,
+                          passwordController.text);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => SplashScreen()));
                     }),
               ],
             ),

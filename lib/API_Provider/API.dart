@@ -2,29 +2,44 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:slark_v2/models/loginModel.dart';
+import 'package:slark_v2/models/registerModel.dart';
 
 enum RequestType { POST, GET }
-enum IsAuthorized { True, False }
 
 class ApiProvider {
-  static String BASE_URL = 'http://algheres.net/public';
-  static String LoginUrl = '${BASE_URL}/api/login';
+  static String BASE_URL = 'http://anaskannass1995-001-site1.itempurl.com';
+  static String RegisterURL = '${BASE_URL}/api/register';
+  static String LoginURl = '${BASE_URL}/api/login';
+
   var _headers = {
     'Accept': 'application/json',
   };
 
-  // Future<LoginModel> Login(context, String username, String password) async {
-  //   Map body = {"username": username, "password": password};
-  //   var response = await _removeSSL(
-  //       RequestType.POST, LoginUrl, body, context, IsAuthorized.False);
-  //   print(response);
+  Future<RegisterModel> Register(
+      context, String Email, String password, String Name) async {
+    Map body = {"Email": Email, "password": password, "Name": Name};
+    var response =
+        await _removeSSL(RequestType.POST, RegisterURL, body, context);
+    print(response);
+    var res = RegisterModel.fromJson(json.decode(response));
+    return res;
+  }
 
-  //   var res = LoginModel.fromJson(json.decode(response));
-  //   return res;
-  // }
+  Future<LoginModel> Login(context, String Email, String password) async {
+    Map body = {"Email": Email, "password": password};
+    var response = await _removeSSL(RequestType.POST, LoginURl, body, context);
+    print(response);
+    var res = LoginModel.fromJson(json.decode(response));
+    return res;
+  }
 
-  _removeSSL(RequestType requestType, String url, Map body, context,
-      IsAuthorized isAuthorized) async {
+  _removeSSL(
+    RequestType requestType,
+    String url,
+    Map body,
+    context,
+  ) async {
     print(url);
     String reply = "";
     print("im first");
@@ -32,10 +47,10 @@ class ApiProvider {
     if (requestType == RequestType.POST) {
       print("body: ${json.encode(body).toString()}");
       print('header: ${json.encode(_headers)}');
-      response = await _loadRequestPost(url, body, isAuthorized);
+      response = await _loadRequestPost(url, body);
       print("second");
     } else {
-      response = await _loadRequestGet(url, isAuthorized);
+      response = await _loadRequestGet(url);
       print("second");
     }
 
@@ -54,33 +69,17 @@ class ApiProvider {
   _loadRequestPost(
     String url,
     Map body,
-    IsAuthorized isAuthorized,
   ) async {
-    // if (isAuthorized.index == 0) {
-    //   print('body: -_loadRequestPost ${json.encode(body)}');
-    //   print('_authorizHeader: $_authorizHeader');
-    //   final response =
-    //       await http.post(Uri.parse(url), headers: _authorizHeader, body: body);
-    //   print('response:-- ${response.body}');
-    //   return response;
-    // } else {
-    //   print('body: -_loadRequestPost ${json.encode(body)}');
-    //   final response =
-    //       await http.post(Uri.parse(url), headers: _headers, body: body);
-    //   print('response:-- ${response.body}');
-    //   return response;
-    // }
+    print('body: -_loadRequestPost ${json.encode(body)}');
+    final response =
+        await http.post(Uri.parse(url), headers: _headers, body: body);
+    print('response:-- ${response.body}');
+    return response;
   }
 
-  _loadRequestGet(String url, IsAuthorized isAuthorized) async {
-    // if (isAuthorized.index == 0) {
-    //   print(_authorizHeader);
-    //   final request = await http.get(Uri.parse(url), headers: _authorizHeader);
-    //   return request;
-    // } else {
-    //   final request = await http.get(Uri.parse(url), headers: _headers);
-    //   return request;
-    // }
+  _loadRequestGet(String url) async {
+    final request = await http.get(Uri.parse(url), headers: _headers);
+    return request;
   }
 }
 

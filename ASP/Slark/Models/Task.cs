@@ -26,6 +26,7 @@ namespace Slark.Models
         public string Parantid { get; set; }
         public Nullable<int> Priority { get; set; }
         public string UserId { get; set; }
+        public Nullable<System.DateTime> Creationdate { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual ProjectStatu ProjectStatu { get; set; }

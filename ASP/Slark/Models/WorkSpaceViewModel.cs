@@ -14,18 +14,35 @@ namespace Slark.Models
 
 
     }
-  
+
     public class LoginViewModels
     {
         public string Email { get; set; }
         public string Password { get; set; }
     }
 
+
+    public class LoginRegisterViewMode
+    {
+        public string userid { get; set; }
+        public string Email { get; set; }
+        public string username { get; set; }
+        public List<WorkSpaceViewModel> WorkSpaces { get; set; }
+        
+    }
+
+
+
+
+
+
     public class WorkSpaceViewModel
     {
         public string Id { get; set; }
         public string WsName { get; set; }
         public bool Ismine { get; set; }
+        public List<SpaceViewModel> spaces { get; set; }
+
 
     }
     public class SpaceViewModel
@@ -35,7 +52,52 @@ namespace Slark.Models
 
     }
 
-   public class Activity
+    public class HomeViewModel
+    {
+        public List<UserListViewModel> recentChat { get; set; }
+        public List<ProjectsViewModel> Projects { get; set; }
+        public List<SpaceViewModel> spaces { get; set; }
+    }
+
+
+   
+    public class ProjectsViewModel
+    {
+        public string id { get; set; }
+        public string Name { get; set; }
+        public string Percentage { get; set; }
+        public string CreationDate { get; set; }
+    }
+    public class UserListViewModel
+    {
+        public string id { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class TeamViewModel  
+    {
+        public string id { get; set; }
+        public string Name { get; set; }
+        public List<MemberViewModel> members { get; set; }
+    }
+
+    public class MemberViewModel
+    {
+        public string id { get; set; }
+        public string userid { get; set; }
+        public string Name { get; set; }
+        public string isTeamLeader { get; set; }
+    }
+    public class messagerespViewModel
+    {
+        public string msg { get; set; }
+      
+    }
+
+    public class PrivateMessageUserViewModel
+    {
+    }
+    public class Activity
     {
         public string Name { get; set; }
         public int Duration { get; set; }
@@ -68,4 +130,5 @@ namespace Slark.Models
             return steps == 0;
         }
     }
+
 }

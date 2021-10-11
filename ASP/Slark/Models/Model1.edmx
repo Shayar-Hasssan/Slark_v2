@@ -102,6 +102,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="SpaceId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="status" Type="tinyint" Nullable="false" />
+          <Property Name="creationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ProjectStatus">
           <Key>
@@ -142,9 +143,10 @@
           <Property Name="DonePrecentage" Type="float" Nullable="false" />
           <Property Name="IsClosed" Type="tinyint" Nullable="false" />
           <Property Name="TaskDesc" Type="ntext" />
-          <Property Name="Parantid" Type="nvarchar" MaxLength="128" />
+          <Property Name="Parantid" Type="ntext" />
           <Property Name="Priority" Type="int" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Creationdate" Type="datetime" />
         </EntityType>
         <EntityType Name="TeamMembers">
           <Key>
@@ -707,6 +709,7 @@
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Projects" FromRole="Projects" ToRole="Tasks" />
           <NavigationProperty Name="TeamProjects" Relationship="Self.FK_TeamProjects_Projects" FromRole="Projects" ToRole="TeamProjects" />
           <Property Name="status" Type="Byte" Nullable="false" />
+          <Property Name="creationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ProjectStatu">
           <Key>
@@ -753,10 +756,11 @@
           <Property Name="TaskDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Project" Relationship="Self.FK_Tasks_Projects" FromRole="Tasks" ToRole="Projects" />
           <NavigationProperty Name="ProjectStatu" Relationship="Self.FK_Tasks_ProjectStatus" FromRole="Tasks" ToRole="ProjectStatus" />
-          <Property Name="Parantid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Parantid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Priority" Type="Int32" />
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="SlarkModel.FK_Tasks_AspNetUsers" FromRole="Task" ToRole="AspNetUser" />
+          <Property Name="Creationdate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TeamMember">
           <Key>
@@ -1285,6 +1289,7 @@
           <EntitySetMapping Name="Projects">
             <EntityTypeMapping TypeName="SlarkModel.Project">
               <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="creationDate" ColumnName="creationDate" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1324,6 +1329,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="SlarkModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="Creationdate" ColumnName="Creationdate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Parantid" ColumnName="Parantid" />

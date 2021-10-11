@@ -24,25 +24,35 @@ namespace Slark.Controllers
 
         [Route("api/register")]
         [HttpPost]
-        public List<WorkSpaceViewModel> regiesterCustomerAsync([FromBody] RegisterViewModels body)
+        public GenericResponseObject<LoginRegisterViewMode> regiesterCustomerAsync([FromBody] RegisterViewModels body)
         {
 
             RegisterViewModel model = new RegisterViewModel();
+            LoginRegisterViewMode regmodemodel = new LoginRegisterViewMode();
             model.Email = body.Email;
             model.Password = body.Password;
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = UserManager.Create(user, model.Password);
             if (result.Succeeded)
             {
-                 var currentUser = UserManager.FindByName(user.UserName);
-                    var newuser = db.AspNetUsers.Find(currentUser.Id);
-                    newuser.Name = body.Name;
-                    db.Entry(newuser).State = EntityState.Modified;
-                    db.SaveChanges();
+                var currentUser = UserManager.FindByName(user.UserName);
+                var newuser = db.AspNetUsers.Find(currentUser.Id);
+                regmodemodel.Email = newuser.Email;
+                regmodemodel.userid = currentUser.Id;
+                regmodemodel.username = user.UserName;
+                newuser.Name = body.Name;
+                db.Entry(newuser).State = EntityState.Modified;
+                db.SaveChanges();
                 WorkSpace ws = new WorkSpace();
                 ws.Id = Guid.NewGuid().ToString();
                 ws.WsName = body.Name;
                 db.WorkSpaces.Add(ws);
+                db.SaveChanges();
+                Space spa = new Space();
+                spa.Id = Guid.NewGuid().ToString();
+                spa.SpaceName = body.Name;
+                spa.WsId = ws.Id;
+                db.Spaces.Add(spa);
                 db.SaveChanges();
                 WsManager wsm = new WsManager();
                 wsm.Id = Guid.NewGuid().ToString();
@@ -53,74 +63,139 @@ namespace Slark.Controllers
 
                 List<WorkSpace> lws = new List<WorkSpace>();
                 List<WorkSpaceViewModel> wsViewmodel = new List<WorkSpaceViewModel>();
-                var a = db.WsManagers.Where(x => x.UserId == currentUser.Id).Select(z=>z.WorkSpace).ToList();
+                var a = db.WsManagers.Where(x => x.UserId == currentUser.Id).Select(z => z.WorkSpace).ToList();
                 foreach (var item in a)
                 {
                     WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
                     v.Id = item.Id;
-                    v.WsName =item.WsName;
+                    v.WsName = item.WsName;
                     v.Ismine = true;
+                    var spaces = db.Spaces.Where(x=>x.WsId==v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
                     wsViewmodel.Add(v);
                 }
                 var b = db.Wsmembers.Where(x => x.WSMem == currentUser.Id).Select(z => z.WorkSpace).ToList();
                 foreach (var item in b)
                 {
                     WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
                     v.Id = item.Id;
                     v.WsName = item.WsName;
                     v.Ismine = false;
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
                     wsViewmodel.Add(v);
                 }
-                return wsViewmodel;
+                regmodemodel.WorkSpaces = wsViewmodel;
+                List<LoginRegisterViewMode> Listoflogin = new List<LoginRegisterViewMode>();
+                Listoflogin.Add(regmodemodel);
+                GenericResponseObject<LoginRegisterViewMode> GResp1 = new GenericResponseObject<LoginRegisterViewMode>();
+                GResp1.data = Listoflogin;
+                GResp1.message = "Success";
+                GResp1.Code = 1;
+                return GResp1;
                 //var currentUser = UserManager.FindByName(user.UserName);
                 //var roleresult = UserManager.AddToRole(currentUser.Id, "customer");
                 //var ThenewUser = db.AspNetUsers.Find(currentUser.Id);
 
             }
-            return new List<WorkSpaceViewModel>();
+            GenericResponseObject<LoginRegisterViewMode> GResp = new GenericResponseObject<LoginRegisterViewMode>();
+            GResp.data = new List<LoginRegisterViewMode>();
+            GResp.message = result.Errors.ToString();
+            GResp.Code = -1;
+            return GResp;
 
         }
 
 
         [Route("api/login")]
-        public async Task<List<WorkSpaceViewModel>> loginasyncAsync(LoginViewModel model)
+        public async Task<GenericResponseObject<LoginRegisterViewMode>> loginasyncAsync(LoginViewModel model)
         {
             var signinManager = HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
-
+            LoginRegisterViewMode regmodemodel = new LoginRegisterViewMode();
+            
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             SignInStatus result =
                 signinManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, false);
             if (result == 0)
             {
+
                 var user = UserManager.FindByName(model.Email);
                 var temp = user.Id;
+                regmodemodel.Email = user.Email;
+                regmodemodel.userid = user.Id;
+                regmodemodel.username = user.UserName;
                 List<WorkSpace> lws = new List<WorkSpace>();
                 List<WorkSpaceViewModel> wsViewmodel = new List<WorkSpaceViewModel>();
                 var a = db.WsManagers.Where(x => x.UserId == user.Id).Select(z => z.WorkSpace).ToList();
                 foreach (var item in a)
                 {
                     WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
                     v.Id = item.Id;
                     v.WsName = item.WsName;
                     v.Ismine = true;
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
                     wsViewmodel.Add(v);
                 }
                 var b = db.Wsmembers.Where(x => x.WSMem == user.Id).Select(z => z.WorkSpace).ToList();
                 foreach (var item in b)
                 {
                     WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
                     v.Id = item.Id;
                     v.WsName = item.WsName;
                     v.Ismine = false;
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
                     wsViewmodel.Add(v);
                 }
-                return await Task.FromResult(wsViewmodel);
+
+                regmodemodel.WorkSpaces = wsViewmodel;
+                List<LoginRegisterViewMode> Listoflogin = new List<LoginRegisterViewMode>();
+                Listoflogin.Add(regmodemodel);
+                GenericResponseObject<LoginRegisterViewMode> GResp1 = new GenericResponseObject<LoginRegisterViewMode>();
+                GResp1.data = Listoflogin;
+                GResp1.message = "Success";
+                GResp1.Code = 1;
+                return await Task.FromResult(GResp1);
                 //return wsViewmodel;
             }
             else
             {
-                return await Task.FromResult( new List<WorkSpaceViewModel>());
+                GenericResponseObject<LoginRegisterViewMode> GResp = new GenericResponseObject<LoginRegisterViewMode>();
+                GResp.data = new List<LoginRegisterViewMode>();
+                GResp.message = "invalid username or password";
+                GResp.Code = -1;
+                return await Task.FromResult(GResp);
+
             }
 
         }
@@ -146,127 +221,310 @@ namespace Slark.Controllers
 
 
         //WorkSpaces
-        [HttpGet]
+        [HttpPost]
         [Route("api/GetWorkSpace")]
-        [ResponseType(typeof(Space))]
         public IHttpActionResult GetUserWorkSpace(string id)
         {
-            List<WorkSpace> lws = new List<WorkSpace>();
-            List<WorkSpaceViewModel> wsViewmodel = new List<WorkSpaceViewModel>();
-            var a = db.WsManagers.Where(x => x.UserId == id).Select(z => z.WorkSpace).ToList();
-            foreach (var item in a)
+            try
             {
-                WorkSpaceViewModel v = new WorkSpaceViewModel();
-                v.Id = item.Id;
-                v.WsName = item.WsName;
-                v.Ismine = true;
-                wsViewmodel.Add(v);
+                List<WorkSpace> lws = new List<WorkSpace>();
+                List<WorkSpaceViewModel> wsViewmodel = new List<WorkSpaceViewModel>();
+                var a = db.WsManagers.Where(x => x.UserId == id).Select(z => z.WorkSpace).ToList();
+                foreach (var item in a)
+                {
+                    WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
+                    v.Id = item.Id;
+                    v.WsName = item.WsName;
+                    v.Ismine = true;
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
+                    wsViewmodel.Add(v);
+                }
+                var b = db.Wsmembers.Where(x => x.WSMem == id).Select(z => z.WorkSpace).ToList();
+                foreach (var item in b)
+                {
+                    WorkSpaceViewModel v = new WorkSpaceViewModel();
+                    v.spaces = new List<SpaceViewModel>();
+                    v.Id = item.Id;
+                    v.WsName = item.WsName;
+                    v.Ismine = false;
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
+                    foreach (var space in spaces)
+                    {
+                        SpaceViewModel singlespace = new SpaceViewModel();
+                        singlespace.Id = space.Id;
+                        singlespace.Name = space.SpaceName;
+                        v.spaces.Add(singlespace);
+                    }
+                    wsViewmodel.Add(v);
+                }
+
+                GenericResponseObject<WorkSpaceViewModel> GResp = new GenericResponseObject<WorkSpaceViewModel>();
+                GResp.data = wsViewmodel;
+                GResp.message = "success";
+                GResp.Code = 1;
+                return Ok(GResp);
             }
-            var b = db.Wsmembers.Where(x => x.WSMem == id).Select(z => z.WorkSpace).ToList();
-            foreach (var item in b)
+            catch (Exception)
             {
-                WorkSpaceViewModel v = new WorkSpaceViewModel();
-                v.Id = item.Id;
-                v.WsName = item.WsName;
-                v.Ismine = false;
-                wsViewmodel.Add(v);
+                GenericResponseObject<WorkSpaceViewModel> GResp = new GenericResponseObject<WorkSpaceViewModel>();
+                GResp.data = new List<WorkSpaceViewModel>();
+                GResp.message = "error";
+                GResp.Code = -1;
+                return Ok(GResp);
             }
 
-            return Ok(wsViewmodel);
         }
 
-
+        [HttpPost]
         //WorkSpaces
-        [ResponseType(typeof(WorkSpace))]
-        public IHttpActionResult GetWorkSpaces(string id)
+        [Route("api/GetSpaces")]
+        [ResponseType(typeof(SpaceViewModel))]
+        public IHttpActionResult GetSpaces(string id)
         {
-            var workSpace = db.Spaces.Where(x=>x.WsId==id).ToList();
-            List<SpaceViewModel> lws = new List<SpaceViewModel>();
-            foreach (var item in workSpace)
+            try
             {
-                SpaceViewModel v = new SpaceViewModel();
-                v.Id = item.Id;
-                v.Name = item.SpaceName;
-                lws.Add(v);
+                var workSpace = db.Spaces.Where(x => x.WsId == id).ToList();
+                List<SpaceViewModel> lws = new List<SpaceViewModel>();
+                foreach (var item in workSpace)
+                {
+                    SpaceViewModel v = new SpaceViewModel();
+                    v.Id = item.Id;
+                    v.Name = item.SpaceName;
+                    lws.Add(v);
+                }
+
+                GenericResponseObject<SpaceViewModel> GResp = new GenericResponseObject<SpaceViewModel>();
+                GResp.data = lws;
+                GResp.message = "success";
+                GResp.Code = 1;
+                return Ok(GResp);
             }
-            return Ok(lws);
+            catch (Exception)
+            {
+                GenericResponseObject<SpaceViewModel> GResp = new GenericResponseObject<SpaceViewModel>();
+                GResp.data = new List<SpaceViewModel>();
+                GResp.message = "Error";
+                GResp.Code = -1;
+                return Ok(GResp);
+            }
+
         }
 
 
+
+        [HttpPost]
+        [Route("api/GetHome")]
         //HomePage
-        [ResponseType(typeof(WorkSpace))]
-        public IHttpActionResult GetHome(string id)
+        [ResponseType(typeof(HomeViewModel))]
+        public IHttpActionResult GetHome(string id,string userid,string spaceid)
         {
-            var message = db.PrivateMessages.OrderByDescending(x => x.CreationDate).Take(4).ToList();
-            var projects = db.Projects.Where(x => x.Tasks.Any(z=>z.DonePrecentage>0)).Take(5).ToList();
-            return Ok(message);
+            List<HomeViewModel> home = new List<HomeViewModel>();
+            GenericResponseObject<HomeViewModel> GResp = new GenericResponseObject<HomeViewModel>();
+            try
+            {
+                //var message = db.PrivateMessages.OrderByDescending(x => x.CreationDate).Where(z=>z.RecieverUser==userid).GroupBy(z=>z.AspNetUser)).Take(4).ToList();
+                var message = from p in db.PrivateMessages
+                            where p.RecieverUser == userid
+                            group p by p.AspNetUser into op
+                            select op.OrderByDescending(nd => nd.CreationDate).FirstOrDefault();
+
+                var projects = db.Projects.Where(x => x.status==1 && x.SpaceId==spaceid).Take(5).ToList();
+                HomeViewModel home1 = new HomeViewModel();
+                List <UserListViewModel> userlist = new List<UserListViewModel>();
+                List <ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+                List <SpaceViewModel> workspacelist = new List<SpaceViewModel>();
+                foreach (var item in message)
+                {
+                    UserListViewModel user = new UserListViewModel();
+                    user.id = item.AspNetUser.Id;
+                    user.Email = item.AspNetUser.Email;
+                    userlist.Add(user);
+                }
+                foreach (var item in projects)
+                {
+                    ProjectsViewModel project = new ProjectsViewModel();
+                    project.id = item.Id;
+                    project.Name = item.Name;
+                    int perc = 0;
+                    if(item.Tasks.Count!=0)
+                    {
+                        perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
+
+                    }
+                    project.Percentage = perc.ToString();
+                    project.CreationDate = item.creationDate.Value.ToString("MM/dd/yyyy");
+                    projectList.Add(project);
+                }
+                var workSpace = db.Spaces.Where(x => x.WsId == id).ToList();
+                foreach (var item in workSpace)
+                {
+                    SpaceViewModel v = new SpaceViewModel();
+                    v.Id = item.Id;
+                    v.Name = item.SpaceName;
+                    workspacelist.Add(v);
+                }
+                home1.Projects = projectList;
+                home1.recentChat = userlist;
+                home1.spaces = workspacelist;
+                home.Add(home1);
+                GResp.data = home;
+                GResp.message = "success";
+                GResp.Code = 1;
+                return Ok(GResp);
+            }
+            catch (Exception)
+            {
+                GResp.data = new List<HomeViewModel>();
+                GResp.message = "Error";
+                GResp.Code = -1;
+                return Ok(GResp);
+            }
+
         }
 
 
-
-
-        [ResponseType(typeof(WorkSpace))]
-        public IHttpActionResult PostWorkSpace(string name ,string id)
+        [HttpPost]
+        [Route("api/GetProjectList")]
+        [ResponseType(typeof(ProjectsViewModel))]
+        public IHttpActionResult GetProjectList( string spaceid)
         {
-            WorkSpace ws = new WorkSpace();
-            ws.WsName = name;
-            ws.Id = Guid.NewGuid().ToString();
-           db.WorkSpaces.Add(ws);
-            WsManager wsm = new WsManager();
-                db.SaveChanges();
+            GenericResponseObject<ProjectsViewModel> GResp = new GenericResponseObject<ProjectsViewModel>();
+            try
+            {
+                List<ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+                var projects = db.Projects.Where(x => x.SpaceId == spaceid).ToList();
+                foreach (var item in projects)
+                {
+                    ProjectsViewModel project = new ProjectsViewModel();
+                    project.id = item.Id;
+                    project.Name = item.Name;
+                    int perc = 0;
+                    if (item.Tasks.Count != 0)
+                    {
+                        perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
 
-            return Ok(wsm);
+                    }
+                    project.Percentage = perc.ToString();
+                    project.CreationDate = item.creationDate.Value.ToString("MM/dd/yyyy");
+                    projectList.Add(project);
+                }
+                GResp.data = projectList;
+                GResp.message = "success";
+                GResp.Code = 1;
+                return Ok(GResp);
+            }
+            catch (Exception)
+            {
+                GResp.data = new List<ProjectsViewModel>();
+                GResp.message = "Error";
+                GResp.Code = -1;
+                return Ok(GResp);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("api/GetTeamList")]
+        [ResponseType(typeof(TeamViewModel))]
+        public IHttpActionResult GetTeamList(string workspaceid)
+        {
+            GenericResponseObject<TeamViewModel> GResp = new GenericResponseObject<TeamViewModel>();
+            try
+            {
+                List<TeamViewModel> teamlist = new List<TeamViewModel>();
+                var teams = db.Teams.Where(x => x.WsId == workspaceid).ToList();
+                foreach (var item in teams)
+                {
+                    TeamViewModel team = new TeamViewModel();
+                    team.members = new List<MemberViewModel>();
+                    team.id = item.Id;
+                    team.Name = item.Name;
+                    var members = item.TeamMembers.ToList();
+                    foreach (var mem in members)
+                    {
+                        MemberViewModel teammember = new MemberViewModel();
+                        teammember.id = mem.Id;
+                        teammember.userid = mem.UserId;
+                        teammember.Name = mem.AspNetUser.Email;
+                        teammember.isTeamLeader = mem.IsTeamLeader.ToString();
+                        team.members.Add(teammember);
+                    }
+                    teamlist.Add(team);
+                }
+                GResp.data = teamlist;
+                GResp.message = "success";
+                GResp.Code = 1;
+                return Ok(GResp);
+            }
+            catch (Exception)
+            {
+                GResp.data = new List<TeamViewModel>();
+                GResp.message = "Error";
+                GResp.Code = -1;
+                return Ok(GResp);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("api/inviteusertoworkspace")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult inviteusertoworkspace(string workspaceid, string userid)
+        {
+            Wsmember wsm = new Wsmember();
+            wsm.Id = Guid.NewGuid().ToString();
+            wsm.WSId = workspaceid;
+            wsm.WSMem = userid;
+            db.Wsmembers.Add(wsm);
+            db.SaveChanges();
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+        // PUT: api/WorkSpaces/5
+        [HttpPost]
+        [Route("api/inviteworktoteam")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult inviteworktoteam(string teamid, string userid,string isTML)
+        {
+            TeamMember tm = new TeamMember();
+            tm.Id = Guid.NewGuid().ToString();
+            tm.TeamId = teamid;
+            tm.UserId = userid;
+            tm.IsTeamLeader = Convert.ToByte(isTML);
+            db.TeamMembers.Add(tm);
+            db.SaveChanges();
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
         }
         // PUT: api/WorkSpaces/5
 
 
-        [ResponseType(typeof(Space))]
-        public IHttpActionResult PostSpace(string name, string id)
-        {
-            Space ws = new Space();
-            ws.SpaceName = name;
-            ws.WsId = id;
-            ws.Id = Guid.NewGuid().ToString();
-            db.Spaces.Add(ws);
-            db.SaveChanges();
-            return Ok();
-        }
-        // PUT: api/WorkSpaces/5
 
-        [ResponseType(typeof(Project))]
-        public IHttpActionResult Postproject(string name, string id)
-        {
-            Project ws = new Project();
-            ws.Name = name;
-            ws.SpaceId = id;
-            ws.Id = Guid.NewGuid().ToString();
-            db.Projects.Add(ws);
-            db.SaveChanges();
 
-            return Ok();
-        }
 
-        [ResponseType(typeof(Team))]
-        public IHttpActionResult Postteam(string name, string id)
-        {
-            Team ws = new Team();
-            ws.Name = name;
-            ws.WsId = id;
-            ws.Id = Guid.NewGuid().ToString();
-            db.Teams.Add(ws);
-            db.SaveChanges();
-
-            return Ok();
-        }
-
+      
 
 
         public void calc(string[] args)
         {
-             char[] COLON = { ':' };
-             char[] SEMI_COLON = { ';' };
-             char[] COMMA = { ',' };
-             char[] BRACE = { ']' };
+            char[] COLON = { ':' };
+            char[] SEMI_COLON = { ';' };
+            char[] COMMA = { ',' };
+            char[] BRACE = { ']' };
             int step = 0;
 
             List<Activity> i = new List<Activity>();

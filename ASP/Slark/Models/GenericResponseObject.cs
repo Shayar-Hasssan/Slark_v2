@@ -8,10 +8,11 @@ namespace Slark.Models
 {
     public class GenericResponseObject<T>
     {
-        public T data { get; set; }
+        public List<T> data { get; set; }
         public string message { get; set; }
         public int Code { get; set; }
 
     }
+  
 
 }
