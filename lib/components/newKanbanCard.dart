@@ -52,36 +52,33 @@ class _NewKanbanCardState extends State<NewKanbanCard> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    Container(
-                      width: 120.0,
-                      color: Colors.blue[50],
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: PopupMenuButton(
-                            itemBuilder: (context) {
-                              return tasks.map((option) {
-                                return PopupMenuItem(
-                                  value: option,
-                                  child: Text(option),
-                                );
-                              }).toList();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '$selectedTask',
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
-                                Icon(Icons.arrow_drop_down),
-                              ],
-                            ),
-                            onSelected: (option) {
-                              setState(() {
-                                selectedTask = option.toString();
-                              });
-                            }),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: PopupMenuButton(
+                          itemBuilder: (context) {
+                            return tasks.map((option) {
+                              return PopupMenuItem(
+                                value: option,
+                                child: Text(option),
+                              );
+                            }).toList();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '$selectedTask',
+                                style:
+                                    TextStyle(fontSize: 18.0, color: textColor),
+                              ),
+                              Icon(Icons.arrow_drop_down, color: textColor),
+                            ],
+                          ),
+                          onSelected: (option) {
+                            setState(() {
+                              selectedTask = option.toString();
+                            });
+                          }),
                     ),
                     SizedBox(
                       height: 35.0,

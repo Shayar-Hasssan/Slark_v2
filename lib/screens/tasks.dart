@@ -4,13 +4,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/taskSummery.dart';
 
 class TasksScreen extends StatefulWidget {
-  const TasksScreen({Key? key}) : super(key: key);
+  const TasksScreen({Key? key, required this.title}) : super(key: key);
 
   @override
   _TasksScreenState createState() => _TasksScreenState();
+  final String title;
 }
 
 class _TasksScreenState extends State<TasksScreen> {
+  List<String> options = [
+    'All Tasks',
+    'Critical Tasks',
+    'Completed Tasks',
+  ];
+  var selectedOption;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +58,7 @@ class _TasksScreenState extends State<TasksScreen> {
                               icon: Icon(Icons.arrow_left)),
                           Spacer(),
                           Text(
-                            "All Tasks",
+                            "${widget.title}",
                             style: GoogleFonts.poppins(
                               color: Color(0xff4d3a58),
                               fontWeight: FontWeight.w600,
@@ -60,8 +67,26 @@ class _TasksScreenState extends State<TasksScreen> {
                           ),
                           Spacer(),
                           // ignore: deprecated_member_use
-                          IconButton(
-                              onPressed: () {}, icon: Icon(Icons.more_vert))
+                          PopupMenuButton(
+                              color: Colors.blue[50],
+                              iconSize: 15,
+                              itemBuilder: (context) {
+                                return options.map((option) {
+                                  return PopupMenuItem(
+                                    value: option,
+                                    child: Text(option),
+                                  );
+                                }).toList();
+                              },
+                              onSelected: (option) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TasksScreen(title: option.toString()),
+                                  ),
+                                );
+                              }),
                         ],
                       ),
                     ),

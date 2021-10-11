@@ -56,14 +56,6 @@ class _SpacesState extends State<Spaces> {
                           ))
                     ],
                   )),
-                )
-                // ListTile(
-
-                //     // trailing: Text(
-                //     //   spaces[index],
-                //     //   style: TextStyle(color: Colors.green, fontSize: 15),
-                //     // ),
-                //     title: Text(spaces[index])),
-                );
+                ));
           });
 }

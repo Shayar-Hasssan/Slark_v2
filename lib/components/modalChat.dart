@@ -92,27 +92,6 @@ class ModalChat extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15.0),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: Colors.blue[50],
-              //     borderRadius: BorderRadius.circular(30.0),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(10.0),
-              //     child: Row(children: [
-              //       TextField(
-              //         decoration: InputDecoration(
-              //           hintText: 'Reply ... ',
-              //           hintStyle: GoogleFonts.poppins(
-              //             color: Colors.black,
-              //             fontSize: ScreenUtil().setSp(12.0),
-              //           ),
-              //         ),
-              //       ),
-              //     ]),
-              //   ),
-              // )
-
               Wrap(
                 children: [
                   Container(

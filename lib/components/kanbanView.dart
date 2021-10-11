@@ -3,6 +3,7 @@ import 'package:boardview/board_list.dart';
 import 'package:boardview/boardview.dart';
 import 'package:boardview/boardview_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:slark_v2/components/newTaskToCard.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/models/boardItem.dart';
 import 'package:slark_v2/models/boardList.dart';
@@ -64,13 +65,28 @@ class _KanbanViewState extends State<KanbanView> {
         Expanded(
           child: Container(
             padding: EdgeInsets.all(10),
-            child: Text(
-              list.title,
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff2f334b),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  list.title,
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff2f334b),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => TaskToCard(
+                              title: list.title,
+                            ));
+                  },
+                  icon: Icon(Icons.add),
+                ),
+              ],
             ),
           ),
         ),
