@@ -79,10 +79,6 @@ class LoginForm extends StatelessWidget {
                     onPressed: () {
                       bloc.f_login(context, emailController.text,
                           passwordController.text);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => SplashScreen()));
                     }),
               ],
             ),
