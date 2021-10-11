@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.slark_v2">
-   <application
+   <application 
         android:label="slark_v2"
         android:icon="@mipmap/ic_launcher">
         <activity

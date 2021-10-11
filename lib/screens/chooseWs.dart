@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/customAppBar.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/models/workSpaceList.dart';
 
 class ChooseWs extends StatefulWidget {
   const ChooseWs({Key? key}) : super(key: key);
@@ -29,15 +31,46 @@ class _ChooseWsState extends State<ChooseWs> {
           title: 'Where to go?',
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: ListView.builder(
-          itemCount: wS.length,
-          itemBuilder: (BuildContext ctx, int index) => EntryItem(
-            wS[index],
-          ),
-        ),
-      ),
+      body: StreamBuilder<WorkSpaceList>(
+          stream: bloc.getAllWorkSpaceListsStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: ListView.builder(
+                  itemCount: snapshot.data!.data!.length,
+                  itemBuilder: (BuildContext ctx, int index) => ExpansionTile(
+                    title: Text(snapshot.data!.data![index].wsName ?? ""),
+                    children: <Widget>[
+                      for (int i = 0;
+                          i < snapshot.data!.data![index].spaces!.length;
+                          i++)
+                        ListTile(
+                          onTap: () {
+                            print('Hello there');
+                          },
+                          title: Text(
+                              snapshot.data!.data![index].spaces![i].name ??
+                                  ""),
+                        ),
+                    ],
+                    // children: snapshot.data!.data![index].spaces!
+                    //     .map<Widget>(
+                    //       ListTile(
+                    //         onTap: () {
+                    //           print('Hello there');
+                    //         },
+                    //         title: Text(root.title),
+                    //       ),
+                    //     )
+                    //     .toList(),
+                  ),
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 }

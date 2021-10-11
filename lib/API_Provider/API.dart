@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:slark_v2/models/loginModel.dart';
 import 'package:slark_v2/models/registerModel.dart';
+import 'package:slark_v2/models/workSpaceList.dart';
 
 enum RequestType { POST, GET }
 
@@ -11,6 +12,7 @@ class ApiProvider {
   static String BASE_URL = 'http://anaskannass1995-001-site1.itempurl.com';
   static String RegisterURL = '${BASE_URL}/api/register';
   static String LoginURl = '${BASE_URL}/api/login';
+  static String showallworkspaceURL = '${BASE_URL}/api/GetWorkSpace?id=';
 
   var _headers = {
     'Accept': 'application/json',
@@ -32,6 +34,16 @@ class ApiProvider {
     print(response);
     var res = LoginModel.fromJson(json.decode(response));
     return res;
+  }
+
+  Future<WorkSpaceList> showallworkspaces(context, String userid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST, showallworkspaceURL + userid, body, context);
+
+    print(response);
+    return WorkSpaceList.fromJson(json.decode(response));
   }
 
   _removeSSL(

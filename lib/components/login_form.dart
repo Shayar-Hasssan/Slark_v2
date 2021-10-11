@@ -9,7 +9,7 @@ import 'package:slark_v2/screens/splash.dart';
 import '../constraints.dart';
 import 'input_container.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   LoginForm({
     Key? key,
     required this.isLogin,
@@ -22,20 +22,24 @@ class LoginForm extends StatelessWidget {
   final Duration animationDuration;
   final Size size;
   final double defaultLoginSize;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      opacity: isLogin ? 1.0 : 0.0,
-      duration: animationDuration * 4,
+      opacity: widget.isLogin ? 1.0 : 0.0,
+      duration: widget.animationDuration * 4,
       child: Align(
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Container(
-            width: size.width,
-            height: defaultLoginSize,
+            width: widget.size.width,
+            height: widget.defaultLoginSize,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -54,6 +58,7 @@ class LoginForm extends StatelessWidget {
                 SizedBox(height: 40.0),
                 InputContainer(
                   child: TextField(
+                    controller: emailController,
                     cursorColor: kPrimaryColor,
                     decoration: InputDecoration(
                       icon: Icon(Icons.mail, color: kPrimaryColor),
@@ -64,6 +69,7 @@ class LoginForm extends StatelessWidget {
                 ),
                 InputContainer(
                   child: TextField(
+                    controller: passwordController,
                     cursorColor: kPrimaryColor,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -77,12 +83,20 @@ class LoginForm extends StatelessWidget {
                 RoundedButton(
                     title: 'LOGIN',
                     onPressed: () {
-                      bloc.f_login(context, emailController.text,
-                          passwordController.text);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => SplashScreen()));
+                      bloc
+                          .f_login(context, emailController.text,
+                              passwordController.text)
+                          .then((value) {
+                        if (value.code! > 0) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SplashScreen(
+                                      value.data!.first.userid ?? "")));
+                        } else {
+                          print("error");
+                        }
+                      });
                     }),
               ],
             ),
