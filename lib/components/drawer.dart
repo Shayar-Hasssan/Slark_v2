@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/deleteDialog.dart';
 import 'package:slark_v2/components/memberImage.dart';
 import 'package:slark_v2/components/newTeamDialog.dart';
@@ -24,6 +25,14 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  @override
+  void initState() {
+    super.initState();
+    bloc.f_getteam(context, widget.workspaceid).then((value) {
+      print(value.data!.length);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -224,92 +233,92 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 indent: 30,
                 endIndent: 30.0,
               ),
-              SizedBox(height: 15.0),
-              Text(
-                'Team Name',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(height: 20.0),
-              Wrap(
-                spacing: 5.0,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle5.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle13.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle20.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle26.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle18.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle11.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              // SizedBox(height: 15.0),
+              // Text(
+              //   'Team 1',
+              //   style: TextStyle(fontSize: 18.0),
+              // ),
+              // SizedBox(height: 20.0),
+              // Wrap(
+              //   spacing: 5.0,
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.only(bottom: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle5.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           bottom: 12.0, left: 12.0, right: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle13.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           bottom: 12.0, left: 12.0, right: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle20.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           bottom: 12.0, left: 12.0, right: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle26.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           bottom: 12.0, left: 12.0, right: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle18.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(
+              //           bottom: 12.0, left: 12.0, right: 12.0),
+              //       child: Column(
+              //         children: [
+              //           MemberImg(
+              //             image: 'assets/images/People_Circle11.png',
+              //           ),
+              //           Text('Member Name', style: TextStyle(fontSize: 12.0))
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Divider(),
               SizedBox(height: 15.0),
               Text(
-                'Team Name',
+                'Team 1',
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(height: 20.0),
@@ -323,7 +332,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         MemberImg(
                           image: 'assets/images/People_Circle5.png',
                         ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                        Text('Shayar1', style: TextStyle(fontSize: 12.0))
                       ],
                     ),
                   ),
@@ -335,7 +344,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         MemberImg(
                           image: 'assets/images/People_Circle13.png',
                         ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                        Text('Shayar2', style: TextStyle(fontSize: 12.0))
                       ],
                     ),
                   ),
@@ -347,43 +356,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         MemberImg(
                           image: 'assets/images/People_Circle20.png',
                         ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle26.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle18.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 12.0, left: 12.0, right: 12.0),
-                    child: Column(
-                      children: [
-                        MemberImg(
-                          image: 'assets/images/People_Circle11.png',
-                        ),
-                        Text('Member Name', style: TextStyle(fontSize: 12.0))
+                        Text('Shayar3', style: TextStyle(fontSize: 12.0))
                       ],
                     ),
                   ),

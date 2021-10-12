@@ -31,6 +31,9 @@ class ApiProvider {
   static String completedprojectsUrl =
       '${BASE_URL}/api/completedprojects?spid=';
   static String projectdetailsURL = '${BASE_URL}/api/projectdetails?projtid=';
+  static String projmemUrl = '${BASE_URL}/api/projectmember?projtid=';
+
+  static String posttaskurl = '${BASE_URL}/api/PostTask';
 
   var _headers = {
     'Accept': 'application/json',
@@ -64,6 +67,33 @@ class ApiProvider {
     };
     var response =
         await _removeSSL(RequestType.POST, PostTeamURL, body, context);
+    print(response);
+    var res = Successresp.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<Successresp> postTask(context, String projectid, String name,
+      String userid, String date, String prio, String dep) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST,
+        posttaskurl +
+            "?projectid=" +
+            projectid +
+            "&name=" +
+            name +
+            "&userid=" +
+            userid +
+            "&date=" +
+            date +
+            "&prio=" +
+            prio +
+            "&prio=" +
+            prio +
+            "&dep=" +
+            dep,
+        body,
+        context);
     print(response);
     var res = Successresp.fromJson(json.decode(response));
     return res;
@@ -170,6 +200,15 @@ class ApiProvider {
         RequestType.POST, wsmemURL + workspaceid, body, context);
     print(response);
     var res = Teamlist.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<GetTeamList> getteampro(context, String proid) async {
+    Map body = {};
+    var response =
+        await _removeSSL(RequestType.POST, projmemUrl + proid, body, context);
+    print(response);
+    var res = GetTeamList.fromJson(json.decode(response));
     return res;
   }
 

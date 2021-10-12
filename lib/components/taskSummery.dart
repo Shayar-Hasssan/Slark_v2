@@ -12,8 +12,10 @@ import 'package:slark_v2/screens/projectOverview.dart';
 import '../constraints.dart';
 
 class TaskSummery extends StatefulWidget {
-  const TaskSummery({Key? key}) : super(key: key);
-
+  TaskSummery({Key? key, required this.taskname, required this.prec})
+      : super(key: key);
+  String taskname;
+  String prec;
   @override
   _TaskSummeryState createState() => _TaskSummeryState();
 }
@@ -47,7 +49,7 @@ class _TaskSummeryState extends State<TaskSummery> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Task Name',
+                      '${widget.taskname}',
                       style: GoogleFonts.poppins(
                         color: Color(0xff4d3a58),
                         fontWeight: FontWeight.w500,
@@ -65,7 +67,7 @@ class _TaskSummeryState extends State<TaskSummery> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "90%",
+                            "${widget.prec}",
                             style: GoogleFonts.poppins(
                               color: Color(0xff4d3a58),
                               fontWeight: FontWeight.w500,
@@ -73,7 +75,7 @@ class _TaskSummeryState extends State<TaskSummery> {
                             ),
                           ),
                           LinearProgressIndicator(
-                            value: 0.9,
+                            value: double.parse(widget.prec) / 100,
                             backgroundColor: Colors.blue[100],
                             minHeight: 5.0,
                             valueColor:

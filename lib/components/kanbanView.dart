@@ -18,15 +18,15 @@ class KanbanView extends StatefulWidget {
 class _KanbanViewState extends State<KanbanView> {
   final List<BoardListObject> _listData = [
     BoardListObject(title: 'Planning', items: [
-      BoardItemObject(title: 'Task Name 1', from: 'Member 2'),
-      BoardItemObject(title: 'Task Name 5', from: 'Member 1'),
+      BoardItemObject(title: 'Auth', from: 'Sami'),
+      BoardItemObject(title: 'Crud', from: 'Shayar'),
     ]),
     BoardListObject(title: 'To-Do', items: [
-      BoardItemObject(title: 'Task Name 3', from: 'Member 4'),
-      BoardItemObject(title: 'Task Name 2', from: 'Member 3'),
+      BoardItemObject(title: 'JWT', from: 'Shayar2'),
+      BoardItemObject(title: 'hard Delete', from: 'Shero'),
     ]),
     BoardListObject(title: 'Completed', items: [
-      BoardItemObject(title: 'Task Name 4', from: 'Member 5'),
+      BoardItemObject(title: 'Soft Delete', from: 'Jack'),
     ]),
   ];
   final BoardViewController boardViewController = new BoardViewController();

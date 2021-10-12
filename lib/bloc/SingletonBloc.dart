@@ -66,6 +66,11 @@ class SingletonBloc {
         return value;
       });
 
+  Future<GetTeamList> f_getteampro(context, String workspaceid) async =>
+      await apiProvider.getteampro(context, workspaceid).then((value) async {
+        return value;
+      });
+
   Future<Teamlist> f_getteamlist(context, String workspaceid) async =>
       await apiProvider.getteamlist(context, workspaceid).then((value) async {
         return value;
@@ -75,6 +80,14 @@ class SingletonBloc {
           List<String> membid, String leadid) async =>
       await apiProvider
           .postTeam(context, wksid, teamname, membid, leadid)
+          .then((value) async {
+        return value;
+      });
+
+  Future<Successresp> f_postTask(context, String projectid, String name,
+          String userid, String date, String prio, String dep) async =>
+      await apiProvider
+          .postTask(context, projectid, name, userid, date, prio, dep)
           .then((value) async {
         return value;
       });

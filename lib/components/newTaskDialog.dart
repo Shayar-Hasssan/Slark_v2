@@ -1,19 +1,41 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/components/rounded_input.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
 
 class NewTask extends StatefulWidget {
-  const NewTask({Key? key}) : super(key: key);
-
+  const NewTask(this.projid, {Key? key}) : super(key: key);
+  final String projid;
   @override
   _NewTaskState createState() => _NewTaskState();
 }
 
 class _NewTaskState extends State<NewTask> {
+  List<DropdownMenuItem> projectmember = [];
+  String selectedvalue = "";
+  @override
+  void initState() {
+    super.initState();
+    bloc.f_getteampro(context, widget.projid).then((value) {
+      for (var ttype in value.data!) {
+        setState(() {
+          projectmember.add(
+            DropdownMenuItem(
+              child: Text(
+                ttype.name ?? "",
+              ),
+              value: ttype.id,
+            ),
+          );
+        });
+      }
+    });
+  }
+
   List<String> tasks = ['task1', 'task2', 'task3', 'task4', 'task6'];
   DateTime selectedDate = DateTime.now();
   @override
@@ -55,6 +77,34 @@ class _NewTaskState extends State<NewTask> {
                     SizedBox(
                       height: 25.0,
                     ),
+                    // Container(
+                    //   height: 100.0,
+                    //   child: DropdownButtonHideUnderline(
+                    //     child: DropdownButton<dynamic>(
+                    //       hint: Text(
+                    //         "teams",
+                    //       ),
+                    //       items: projectmember.map((value) {
+                    //         return DropdownMenuItem(
+                    //           value: value.value,
+                    //           child: value.child,
+                    //         );
+                    //       }).toList(),
+                    //       icon: Icon(
+                    //         Icons.keyboard_arrow_down,
+                    //         color: Colors.black,
+                    //         size: 15,
+                    //       ),
+                    //       value: selectedvalue == "" ? null : selectedvalue,
+                    //       onChanged: (value) {
+                    //         setState(() {
+                    //           selectedvalue = value;
+                    //         });
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
+
                     Container(
                       height: 90.0,
                       child: ListView.builder(

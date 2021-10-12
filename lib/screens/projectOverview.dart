@@ -129,7 +129,9 @@ class _SheetViewState extends State<SheetView> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: LinearProgressIndicator(
-                              value: 0.4,
+                              value: double.parse(
+                                      snapshot.data!.data!.first.percentage!) /
+                                  100,
                               backgroundColor: Colors.grey[300],
                               minHeight: 5.0,
                               valueColor:
@@ -272,7 +274,7 @@ class _SheetViewState extends State<SheetView> {
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        NewTask());
+                                        NewTask(widget.id));
                               }
                             },
                             icon: Icon(

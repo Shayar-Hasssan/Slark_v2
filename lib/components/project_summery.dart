@@ -88,7 +88,8 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                             ),
                           ),
                           LinearProgressIndicator(
-                            value: 0.9,
+                            value:
+                                double.parse(widget.project.percentage) / 100,
                             backgroundColor: Colors.blue[100],
                             minHeight: 5.0,
                             valueColor:

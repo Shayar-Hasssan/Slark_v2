@@ -103,7 +103,10 @@ class _TasksScreenState extends State<TasksScreen> {
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
-                            TaskSummery(),
+                            TaskSummery(
+                              prec: '40.0',
+                              taskname: 'Auth',
+                            ),
                             SizedBox(
                               height: ScreenUtil().setHeight(5.0),
                             ),
@@ -111,11 +114,17 @@ class _TasksScreenState extends State<TasksScreen> {
                             SizedBox(
                               height: ScreenUtil().setHeight(5.0),
                             ),
-                            TaskSummery(),
+                            TaskSummery(
+                              prec: '90.0',
+                              taskname: 'Reporting',
+                            ),
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
-                            TaskSummery(),
+                            TaskSummery(
+                               prec:'60.0',
+                              taskname: 'SoftDelete',
+                            ),
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),

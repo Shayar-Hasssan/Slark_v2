@@ -58,7 +58,7 @@ class TaskCardWidget extends StatelessWidget {
                         width: ScreenUtil().setWidth(15.0),
                       ),
                       Text(
-                        task.taskEndDate.toString() ?? "Sep 25, at 11:00 AM",
+                        task.taskEndDate.toString(),
                         style: GoogleFonts.poppins(
                           color: Color(0xff4d3a58),
                           fontSize: ScreenUtil().setSp(14.0),
@@ -130,7 +130,7 @@ class TaskCardWidget extends StatelessWidget {
                         width: ScreenUtil().setWidth(35.0),
                       ),
                       Text(
-                        task.donePrecentage.toString() ?? "Progress 60%",
+                        task.donePrecentage.toString(),
                         style: GoogleFonts.poppins(
                           color: Color(0xff4d3a58),
                           fontSize: ScreenUtil().setSp(14.0),
