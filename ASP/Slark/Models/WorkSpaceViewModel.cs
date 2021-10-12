@@ -131,4 +131,48 @@ namespace Slark.Models
         }
     }
 
+    public class MemberListViewModel
+    {
+        public string userid { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class AddteamviewModel
+    {
+        public string wksid { get; set; }
+        public string teamname { get; set; }
+        public List<string> membid { get; set; }
+        public string leadid { get; set; }
+    }
+
+    public class crit
+    {
+        public string name { get; set; }
+        public string estart { get; set; }
+        public string efinish { get; set; }
+        public string lstart { get; set; }
+        public string lfinish { get; set; }
+        public string critical { get; set; }
+    }
+
+    public class ProjectsListViewModel
+    {
+        public string id { get; set; }
+        public string Name { get; set; }
+    }
+    public class ProjectsDetailsViewModel
+    {
+        public string id { get; set; }
+        public string Name { get; set; }
+        public string Percentage { get; set; }
+        public string CreationDate { get; set; }
+        public List<TaskViewModel>tasks { get; set; }
+    }
+    public class TaskViewModel
+    {
+        public string taskname { get; set; }
+        public System.DateTime TaskEndDate { get; set; }
+        public double DonePrecentage { get; set; }
+        public string username { get; set; }
+    }
 }

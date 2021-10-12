@@ -2,8 +2,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:slark_v2/API_Provider/API.dart';
 import 'package:slark_v2/models/GetTeams.dart';
 import 'package:slark_v2/models/HomeModel.dart';
+import 'package:slark_v2/models/ProjectDetailsModel.dart';
 import 'package:slark_v2/models/genrealresp.dart';
 import 'package:slark_v2/models/loginModel.dart';
+import 'package:slark_v2/models/projectList.dart';
+import 'package:slark_v2/models/teamlist.dart';
 import 'package:slark_v2/models/workSpaceList.dart';
 
 class SingletonBloc {
@@ -16,6 +19,13 @@ class SingletonBloc {
 
   BehaviorSubject<HomeModel> _HomeModelController = BehaviorSubject();
   Stream<HomeModel> get HomeModelStream => _HomeModelController.stream;
+
+  BehaviorSubject<ProjectList> _ProjectListController = BehaviorSubject();
+  Stream<ProjectList> get ProjectListStream => _ProjectListController.stream;
+
+  BehaviorSubject<ProjectdetailsModel> _projectdetailsController =
+      BehaviorSubject();
+  Stream<ProjectdetailsModel> get prstream => _projectdetailsController.stream;
 
   factory SingletonBloc() {
     return _singletonBloc;
@@ -56,10 +66,51 @@ class SingletonBloc {
         return value;
       });
 
+  Future<Teamlist> f_getteamlist(context, String workspaceid) async =>
+      await apiProvider.getteamlist(context, workspaceid).then((value) async {
+        return value;
+      });
+
+  Future<Successresp> f_postTeam(context, String wksid, String teamname,
+          List<String> membid, String leadid) async =>
+      await apiProvider
+          .postTeam(context, wksid, teamname, membid, leadid)
+          .then((value) async {
+        return value;
+      });
+
   f_showallworkspaces(context, String userid) async {
     print('f_showallworkspaces');
     await apiProvider.showallworkspaces(context, userid).then((value) {
       _showAllWorkSpaceListController.sink.add(value);
+    });
+  }
+
+  f_allprojects(context, String spid) async {
+    print('f_showallworkspaces');
+    await apiProvider.allprojects(context, spid).then((value) {
+      _ProjectListController.sink.add(value);
+    });
+  }
+
+  f_activeprojects(context, String spid) async {
+    print('f_showallworkspaces');
+    await apiProvider.activeprojects(context, spid).then((value) {
+      _ProjectListController.sink.add(value);
+    });
+  }
+
+  f_completedprojects(context, String spid) async {
+    print('f_showallworkspaces');
+    await apiProvider.completedprojects(context, spid).then((value) {
+      _ProjectListController.sink.add(value);
+    });
+  }
+
+  f_projectdetails(context, String pid) async {
+    print('f_showallworkspaces');
+    await apiProvider.prdetails(context, pid).then((value) {
+      _projectdetailsController.sink.add(value);
     });
   }
 

@@ -191,7 +191,7 @@ class _MainScreenState extends State<MainScreen> {
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
-                                              NewTeam());
+                                              NewTeam(widget.workspaceid));
                                     }
                                   },
                                 ),
@@ -422,7 +422,8 @@ class _MainScreenState extends State<MainScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ProjectsScreen(title: title)),
+                                                  ProjectsScreen(widget.spaceid,
+                                                      title: title)),
                                         );
                                       },
                                       child: Text(

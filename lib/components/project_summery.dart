@@ -18,7 +18,7 @@ import '../constraints.dart';
 
 class ProjectSummery extends StatefulWidget {
   const ProjectSummery(this.project, {Key? key}) : super(key: key);
-  final Project project;
+  final dynamic project;
   @override
   _ProjectSummeryState createState() => _ProjectSummeryState();
 }
@@ -230,7 +230,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                     ],
                   ),
                 ),
-                Expanded(child: SheetView()),
+                Expanded(child: SheetView(widget.project.id)),
               ],
             ),
           );

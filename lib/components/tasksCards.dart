@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/taskCard.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/models/ProjectDetailsModel.dart';
 
 class TaskCard extends StatefulWidget {
-  const TaskCard({Key? key}) : super(key: key);
-
+  TaskCard(this.tasks, {Key? key}) : super(key: key);
+  final List<Task>? tasks;
   @override
   _TaskCardState createState() => _TaskCardState();
 }
@@ -25,12 +26,9 @@ class _TaskCardState extends State<TaskCard> {
         ),
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: [
-            TaskCardWidget(),
-            TaskCardWidget(),
-            TaskCardWidget(),
-            TaskCardWidget(),
-          ],
+          children: List.generate(widget.tasks!.length, (index) {
+            return TaskCardWidget(widget.tasks![index]);
+          }),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/components/input_container.dart';
 import 'package:slark_v2/components/rounded_input.dart';
@@ -7,14 +8,36 @@ import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
 
 class NewTeam extends StatefulWidget {
-  const NewTeam({Key? key}) : super(key: key);
-
+  NewTeam(this.workspaceid, {Key? key}) : super(key: key);
+  final String workspaceid;
   @override
   _NewTeamState createState() => _NewTeamState();
 }
 
 class _NewTeamState extends State<NewTeam> {
   List<String>? members = [];
+  List<DropdownMenuItem> teams = [];
+  List<DropdownMenuItem> Selectedmembers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.f_getteamlist(context, widget.workspaceid).then((value) {
+      for (var ttype in value.data!) {
+        setState(() {
+          teams.add(
+            DropdownMenuItem(
+              child: Text(
+                ttype.name ?? "",
+              ),
+              value: ttype.userid,
+            ),
+          );
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -56,8 +79,8 @@ class _NewTeamState extends State<NewTeam> {
                       SizedBox(
                         height: 15.0,
                       ),
-                      DropdownSearch<String>.multiSelection(
-                        validator: (List<String>? v) {
+                      DropdownSearch<DropdownMenuItem>.multiSelection(
+                        validator: (List<DropdownMenuItem>? v) {
                           return v == null || v.isEmpty
                               ? "required field"
                               : null;
@@ -70,16 +93,22 @@ class _NewTeamState extends State<NewTeam> {
                         ),
                         mode: Mode.MENU,
                         showSelectedItems: false,
-                        items: ["member1", "member2", "member4", 'member5'],
+                        items: teams.map((value) {
+                          return DropdownMenuItem(
+                            value: value.value,
+                            child: value.child,
+                          );
+                        }).toList(),
+                        //     teams, // ["member1", "member2", "member4", 'member5'],
                         showClearButton: true,
                         onChange: (member) {
                           setState(() {
                             members!.clear();
-                            members!.addAll(member);
+                            Selectedmembers.addAll(member);
                           });
                         },
                         popupSelectionWidget:
-                            (cnt, String item, bool isSelected) {
+                            (cnt, DropdownMenuItem item, bool isSelected) {
                           return isSelected
                               ? Icon(
                                   Icons.check_circle,

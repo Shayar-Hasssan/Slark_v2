@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/constraints.dart';
+import 'package:slark_v2/models/ProjectDetailsModel.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget({
+  const TaskCardWidget(
+    this.task, {
     Key? key,
   }) : super(key: key);
-
+  final Task task;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,7 +24,7 @@ class TaskCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Authentication',
+                  task.taskname ?? 'Authentication',
                   textAlign: TextAlign.start,
                   style: GoogleFonts.poppins(
                     color: Colors.white,
@@ -56,7 +58,7 @@ class TaskCardWidget extends StatelessWidget {
                         width: ScreenUtil().setWidth(15.0),
                       ),
                       Text(
-                        "Sep 25, at 11:00 AM",
+                        task.taskEndDate.toString() ?? "Sep 25, at 11:00 AM",
                         style: GoogleFonts.poppins(
                           color: Color(0xff4d3a58),
                           fontSize: ScreenUtil().setSp(14.0),
@@ -92,7 +94,7 @@ class TaskCardWidget extends StatelessWidget {
                         width: ScreenUtil().setWidth(15.0),
                       ),
                       Text(
-                        "Member: member Name",
+                        "${task.username}",
                         style: GoogleFonts.poppins(
                           color: Color(0xff4d3a58),
                           fontSize: ScreenUtil().setSp(14.0),
@@ -128,7 +130,7 @@ class TaskCardWidget extends StatelessWidget {
                         width: ScreenUtil().setWidth(35.0),
                       ),
                       Text(
-                        "Progress 60%",
+                        task.donePrecentage.toString() ?? "Progress 60%",
                         style: GoogleFonts.poppins(
                           color: Color(0xff4d3a58),
                           fontSize: ScreenUtil().setSp(14.0),

@@ -4,9 +4,12 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:slark_v2/models/GetTeams.dart';
 import 'package:slark_v2/models/HomeModel.dart';
+import 'package:slark_v2/models/ProjectDetailsModel.dart';
 import 'package:slark_v2/models/genrealresp.dart';
 import 'package:slark_v2/models/loginModel.dart';
+import 'package:slark_v2/models/projectList.dart';
 import 'package:slark_v2/models/registerModel.dart';
+import 'package:slark_v2/models/teamlist.dart';
 import 'package:slark_v2/models/workSpaceList.dart';
 
 enum RequestType { POST, GET }
@@ -21,6 +24,14 @@ class ApiProvider {
   static String PostworkSpaceURL = '${BASE_URL}/api/PostworkSpace';
   static String PostProjectURL = '${BASE_URL}/api/PostProject';
   static String GetTeamListURL = '${BASE_URL}/api/GetTeamList?workspaceid=';
+  static String wsmemURL = '${BASE_URL}/api/wsmem?wksid=';
+  static String PostTeamURL = '${BASE_URL}/api/PostTeam';
+  static String allprojectsURL = '${BASE_URL}/api/allprojects?spid=';
+  static String activeprojectsUrl = '${BASE_URL}/api/activeprojects?spid=';
+  static String completedprojectsUrl =
+      '${BASE_URL}/api/completedprojects?spid=';
+  static String projectdetailsURL = '${BASE_URL}/api/projectdetails?projtid=';
+
   var _headers = {
     'Accept': 'application/json',
   };
@@ -40,6 +51,21 @@ class ApiProvider {
     var response = await _removeSSL(RequestType.POST, LoginURl, body, context);
     print(response);
     var res = LoginModel.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<Successresp> postTeam(context, String wksid, String teamname,
+      List<String> membid, String leadid) async {
+    Map body = {
+      "wksid": wksid,
+      "teamname": teamname,
+      "membid": membid,
+      "leadid": leadid
+    };
+    var response =
+        await _removeSSL(RequestType.POST, PostTeamURL, body, context);
+    print(response);
+    var res = Successresp.fromJson(json.decode(response));
     return res;
   }
 
@@ -99,12 +125,51 @@ class ApiProvider {
     return WorkSpaceList.fromJson(json.decode(response));
   }
 
+  Future<ProjectList> allprojects(context, String spid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST, allprojectsURL + spid, body, context);
+
+    print(response);
+    return ProjectList.fromJson(json.decode(response));
+  }
+
+  Future<ProjectList> activeprojects(context, String spid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST, activeprojectsUrl + spid, body, context);
+
+    print(response);
+    return ProjectList.fromJson(json.decode(response));
+  }
+
+  Future<ProjectList> completedprojects(context, String spid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST, completedprojectsUrl + spid, body, context);
+
+    print(response);
+    return ProjectList.fromJson(json.decode(response));
+  }
+
   Future<GetTeamList> getteam(context, String workspaceid) async {
     Map body = {};
     var response = await _removeSSL(
         RequestType.POST, GetTeamListURL + workspaceid, body, context);
     print(response);
     var res = GetTeamList.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<Teamlist> getteamlist(context, String workspaceid) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST, wsmemURL + workspaceid, body, context);
+    print(response);
+    var res = Teamlist.fromJson(json.decode(response));
     return res;
   }
 
@@ -120,6 +185,16 @@ class ApiProvider {
 
     print(response);
     return HomeModel.fromJson(json.decode(response));
+  }
+
+  Future<ProjectdetailsModel> prdetails(context, String pid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST, projectdetailsURL + pid, body, context);
+
+    print(response);
+    return ProjectdetailsModel.fromJson(json.decode(response));
   }
 
   _removeSSL(

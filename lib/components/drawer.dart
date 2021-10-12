@@ -208,7 +208,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         onPressed: () {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) => NewTeam());
+                              builder: (BuildContext context) =>
+                                  NewTeam(widget.workspaceid));
                         },
                         elevation: 0.0,
                         backgroundColor: Colors.blue[300],

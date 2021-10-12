@@ -587,27 +587,320 @@ namespace Slark.Controllers
 
 
         [HttpPost]
+        [Route("api/wsmem")]
+        public IHttpActionResult wsmem(string wksid)
+        {
+            List<MemberListViewModel> mm = new List<MemberListViewModel>();
+            var members = db.Wsmembers.Where(x => x.WSId == wksid).ToList();
+            foreach (var item in members)
+            {
+                MemberListViewModel t = new MemberListViewModel();
+                t.userid = item.WSMem;
+                t.Name = item.AspNetUser.Email;
+                mm.Add(t);
+            }
+            GenericResponseObject<MemberListViewModel> GResp = new GenericResponseObject<MemberListViewModel>();
+            GResp.data = mm;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+        [HttpPost]
         [Route("api/PostTeam")]
-        public IHttpActionResult PostTeam(string wksid, string teamname, string membid, string leadid)
+        public IHttpActionResult PostTeam(AddteamviewModel model)
         {
             Team t = new Team();
             t.Id = Guid.NewGuid().ToString();
-            t.Name = teamname;
-            t.WsId = wksid;
+            t.Name = model.teamname;
+            t.WsId = model.wksid;
             db.Teams.Add(t);
+            db.SaveChanges();
 
-            TeamMember t1 = new TeamMember();
-            t.Id = Guid.NewGuid().ToString();
-            t.Name = teamname;
-            t.WsId = wksid;
-            db.Teams.Add(t);
-
-
+            foreach (var item in model.teamname)
+            {
+                TeamMember t1 = new TeamMember();
+                t1.Id = Guid.NewGuid().ToString();
+                t1.TeamId = t.Id;
+                t1.UserId = model.wksid;
+                if(t1.UserId==model.leadid)
+                {
+                    t1.IsTeamLeader = 0;
+                }
+                else
+                {
+                    t1.IsTeamLeader = 1;
+                }
+                
+                db.Teams.Add(t);
+                db.SaveChanges();
+            }
             GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
             GResp.data = new List<messagerespViewModel>();
             GResp.message = "success";
             GResp.Code = 1;
             return Ok(GResp);
+        }
+
+        [HttpPost]
+        [Route("api/allprojects")]
+        public IHttpActionResult allprojects(string spid)
+        {
+            var projects = db.Projects.Where(x => x.SpaceId == spid).ToList();
+            List<ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+            foreach (var item in projects)
+            {
+                ProjectsViewModel project = new ProjectsViewModel();
+                project.id = item.Id;
+                project.Name = item.Name;
+                int perc = 0;
+                if (item.Tasks.Count != 0)
+                {
+                    perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
+
+                }
+                project.Percentage = perc.ToString();
+                project.CreationDate = item.creationDate.Value.ToString("MM/dd/yyyy");
+                projectList.Add(project);
+            }
+            GenericResponseObject<ProjectsViewModel> GResp = new GenericResponseObject<ProjectsViewModel>();
+            GResp.data = projectList;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+        [HttpPost]
+        [Route("api/activeprojects")]
+        public IHttpActionResult activeprojects(string spid)
+        {
+            var projects = db.Projects.Where(x => x.status == 1 && x.SpaceId == spid).ToList();
+            List<ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+            foreach (var item in projects)
+            {
+                ProjectsViewModel project = new ProjectsViewModel();
+                project.id = item.Id;
+                project.Name = item.Name;
+                int perc = 0;
+                if (item.Tasks.Count != 0)
+                {
+                    perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
+
+                }
+                project.Percentage = perc.ToString();
+                project.CreationDate = item.creationDate.Value.ToString("MM/dd/yyyy");
+                projectList.Add(project);
+            }
+            GenericResponseObject<ProjectsViewModel> GResp = new GenericResponseObject<ProjectsViewModel>();
+            GResp.data = projectList;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+        [HttpPost]
+        [Route("api/completedprojects")]
+        public IHttpActionResult completedprojects(string spid)
+        {
+            var projects = db.Projects.Where(x => x.status == 2 && x.SpaceId == spid).ToList();
+            List<ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+            foreach (var item in projects)
+            {
+                ProjectsViewModel project = new ProjectsViewModel();
+                project.id = item.Id;
+                project.Name = item.Name;
+                int perc = 0;
+                if (item.Tasks.Count != 0)
+                {
+                    perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
+
+                }
+                project.Percentage = perc.ToString();
+                project.CreationDate = item.creationDate.Value.ToString("MM/dd/yyyy");
+                projectList.Add(project);
+            }
+            GenericResponseObject<ProjectsViewModel> GResp = new GenericResponseObject<ProjectsViewModel>();
+            GResp.data = projectList;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+        [HttpPost]
+        [Route("api/criticality")]
+        public IHttpActionResult criticality(string projectid)
+        {
+            List<Activity> i = new List<Activity>();
+            int step = 0;
+            var tasks = db.Tasks.Where(x => x.ProjectId == projectid).ToList();
+            foreach (var item in tasks)
+            {
+                var hours = (item.TaskStartingDate - item.TaskEndDate).TotalHours;
+                Activity a = new Activity(item.taskname, Convert.ToInt32(hours));
+                a.Name = item.taskname;
+                List<string> list = new List<string>();
+                var name = db.Tasks.Find(item.Parantid);
+                list.Add(name.taskname);
+                a.Dependencies = list;
+                i.Add(a);
+            }
+            do
+            {
+                List<string> d = i.Where(x => x.Done()).Select(y => y.Name).ToList();
+                foreach (Activity working in i.Where(x => x.Dependencies.Except(d).Count() == 0 && !x.Done())) working.Step(step);
+                step++;
+            } while (i.Count(x => !x.Done()) > 0);
+
+            foreach (Activity a in i)
+            {
+                Activity next = i.OrderBy(x => x.EFinish).Where(x => x.Dependencies.Contains(a.Name)).FirstOrDefault();
+                a.LFinish = (next == null) ? a.EFinish : next.EStart;
+                a.LStart = a.LFinish - a.Duration;
+            }
+            List<crit> c = new List<crit>();
+            foreach (Activity a in i)
+            {
+                crit  g = new crit();
+                g.name=a.Name;
+                g.estart = a.EStart.ToString();
+                g.efinish = a.EFinish.ToString();
+                g.lstart = a.LStart.ToString();
+                g.lfinish = a.LFinish.ToString();
+                g.critical = (a.LFinish - a.EFinish == 0 && a.LStart - a.EStart == 0) ? "Y" : "N";
+                c.Add(g);
+            }
+            return Ok(c);
+        }
+
+        [HttpPost]
+        [Route("api/projecttasks")]
+        public IHttpActionResult projecttasks(string projtid)
+        {
+            List<ProjectsListViewModel> mm = new List<ProjectsListViewModel>();
+            var members = db.Tasks.Where(x => x.ProjectId == projtid).ToList();
+            foreach (var item in members)
+            {
+                ProjectsListViewModel t = new ProjectsListViewModel();
+                t.id = item.Id;
+                t.Name = item.taskname;
+                mm.Add(t);
+            }
+            GenericResponseObject<ProjectsListViewModel> GResp = new GenericResponseObject<ProjectsListViewModel>();
+            GResp.data = mm;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+
+        [HttpPost]
+        [Route("api/projectmember")]
+        public IHttpActionResult projectmember(string projtid)
+        {
+            List<MemberListViewModel> mm = new List<MemberListViewModel>();
+            var teams = db.TeamProjects.Where(x => x.ProjectId == projtid).ToList();
+            foreach (var item in teams)
+            {
+                var member = db.TeamMembers.Where(x => x.TeamId == item.TeamId).ToList();
+                foreach (var item1 in member)
+                {
+                    MemberListViewModel t = new MemberListViewModel();
+                    t.userid = item1.UserId;
+                    t.Name = item1.AspNetUser.Email;
+                    mm.Add(t);
+                }
+            }
+          
+            GenericResponseObject<MemberListViewModel> GResp = new GenericResponseObject<MemberListViewModel>();
+            GResp.data = mm;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+
+        [HttpPost]
+        [Route("api/projectdetails")]
+        public IHttpActionResult projectdetails(string projtid)
+        {
+            List<ProjectsDetailsViewModel> mm = new List<ProjectsDetailsViewModel>();
+            var teams = db.Projects.Find(projtid);
+            ProjectsDetailsViewModel pro = new ProjectsDetailsViewModel();
+            pro.id = teams.Id;
+            pro.Name = teams.Name;
+            pro.CreationDate = teams.creationDate.ToString();
+            int perc = 0;
+            if (teams.Tasks.Count != 0)
+            {
+                perc = (teams.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / teams.Tasks.Count();
+
+            }
+            pro.Percentage = perc.ToString();
+            List<TaskViewModel> tvm = new List<TaskViewModel>();
+            var tasks = db.Tasks.Where(x => x.ProjectId == projtid).ToList();
+            foreach (var item in tasks)
+            {
+                TaskViewModel t = new TaskViewModel();
+                t.taskname = item.taskname;
+                t.TaskEndDate = item.TaskEndDate;
+                t.DonePrecentage = item.DonePrecentage;
+                t.username = item.AspNetUser.Email;
+                tvm.Add(t);
+            }
+            pro.tasks = new List<TaskViewModel> ();
+            pro.tasks = tvm;
+            mm.Add(pro);
+            GenericResponseObject<ProjectsDetailsViewModel> GResp = new GenericResponseObject<ProjectsDetailsViewModel>();
+            GResp.data = mm;
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+
+        [HttpPost]
+        [Route("api/PostTask")]
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult PostTask(string projectid,string name ,string userid , string date,string prio,string dep)
+        {
+            Models.Task t = new Models.Task();
+            t.Id = Guid.NewGuid().ToString();
+            t.UserId = userid;
+            t.Creationdate = DateTime.Now;
+            t.Priority = int.Parse(prio);
+            t.TaskDesc = "bla";
+            t.taskname = name;
+            t.TaskStartingDate = DateTime.Now;
+            t.TaskEndDate = DateTime.Parse(date);
+            t.ProjectId = projectid;
+            Models.ProjectStatu st = new ProjectStatu();
+            st.Id = Guid.NewGuid().ToString();
+            st.Name = "onprogress";
+            st.ProejctId = projectid;
+            t.Status = st.Id;
+            db.ProjectStatus.Add(st);
+            db.SaveChanges();
+            db.Tasks.Add(t);
+                db.SaveChanges();
+            GenericResponseObject<ProjectsDetailsViewModel> GResp = new GenericResponseObject<ProjectsDetailsViewModel>();
+            GResp.data = new List<ProjectsDetailsViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+
+
+        [HttpPost]
+        [Route("api/addteamproject")]
+        [ResponseType(typeof(Task))]
+        public IHttpActionResult addteamproject()
+        {
+            TeamProject ts = new TeamProject();
+            ts.Id = Guid.NewGuid().ToString();
+            ts.ProjectId = "aece64ff-c4e9-490b-83f0-0769c99e4855";
+            ts.TeamId = "6de3713d-8079-4793-a2ef-3a48e67a05e7";
+            db.TeamProjects.Add(ts);
+            db.SaveChanges();
+            return Ok();
         }
 
         public void calc(string[] args)
