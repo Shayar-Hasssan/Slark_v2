@@ -4,9 +4,11 @@ import 'package:slark_v2/components/customAppBar.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/models/workSpaceList.dart';
+import 'package:slark_v2/screens/home.dart';
 
 class ChooseWs extends StatefulWidget {
-  const ChooseWs({Key? key}) : super(key: key);
+  const ChooseWs(this.userid, {Key? key}) : super(key: key);
+  final String userid;
 
   @override
   _ChooseWsState createState() => _ChooseWsState();
@@ -48,6 +50,14 @@ class _ChooseWsState extends State<ChooseWs> {
                         ListTile(
                           onTap: () {
                             print('Hello there');
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Home(
+                                    snapshot.data!.data![index].id ?? "",
+                                    snapshot.data!.data![index].spaces![i].id ??
+                                        "",
+                                    widget.userid,
+                                    snapshot.data!.data![index].ismine ??
+                                        false)));
                           },
                           title: Text(
                               snapshot.data!.data![index].spaces![i].name ??

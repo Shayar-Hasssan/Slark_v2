@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:slark_v2/models/GetTeams.dart';
+import 'package:slark_v2/models/HomeModel.dart';
+import 'package:slark_v2/models/genrealresp.dart';
 import 'package:slark_v2/models/loginModel.dart';
 import 'package:slark_v2/models/registerModel.dart';
 import 'package:slark_v2/models/workSpaceList.dart';
@@ -13,7 +16,11 @@ class ApiProvider {
   static String RegisterURL = '${BASE_URL}/api/register';
   static String LoginURl = '${BASE_URL}/api/login';
   static String showallworkspaceURL = '${BASE_URL}/api/GetWorkSpace?id=';
-
+  static String HomeURL = '${BASE_URL}/api/GetHome?id=';
+  static String PostSpaceURL = '${BASE_URL}/api/PostSpace';
+  static String PostworkSpaceURL = '${BASE_URL}/api/PostworkSpace';
+  static String PostProjectURL = '${BASE_URL}/api/PostProject';
+  static String GetTeamListURL = '${BASE_URL}/api/GetTeamList?workspaceid=';
   var _headers = {
     'Accept': 'application/json',
   };
@@ -36,6 +43,52 @@ class ApiProvider {
     return res;
   }
 
+  Future<Successresp> PostSpace(context, String wsid, String spacename) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST,
+        PostSpaceURL + "?wsid=" + wsid + "&spacename=" + spacename,
+        body,
+        context);
+    print(response);
+    var res = Successresp.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<Successresp> PostworkSpace(
+      context, String userid, String spacename) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST,
+        PostworkSpaceURL + "?userid=" + userid + "&spacename=" + spacename,
+        body,
+        context);
+    print(response);
+    var res = Successresp.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<Successresp> PostProject(context, String spaceid, String projectname,
+      String teamid, String datee) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST,
+        PostProjectURL +
+            "?spaceid=" +
+            spaceid +
+            "&projectname=" +
+            projectname +
+            "&teamid=" +
+            teamid +
+            "&datee=" +
+            datee,
+        body,
+        context);
+    print(response);
+    var res = Successresp.fromJson(json.decode(response));
+    return res;
+  }
+
   Future<WorkSpaceList> showallworkspaces(context, String userid) async {
     dynamic body = {};
 
@@ -44,6 +97,29 @@ class ApiProvider {
 
     print(response);
     return WorkSpaceList.fromJson(json.decode(response));
+  }
+
+  Future<GetTeamList> getteam(context, String workspaceid) async {
+    Map body = {};
+    var response = await _removeSSL(
+        RequestType.POST, GetTeamListURL + workspaceid, body, context);
+    print(response);
+    var res = GetTeamList.fromJson(json.decode(response));
+    return res;
+  }
+
+  Future<HomeModel> showHome(
+      context, String userid, String wkid, String spaceid) async {
+    dynamic body = {};
+
+    var response = await _removeSSL(
+        RequestType.POST,
+        HomeURL + wkid + "&userid=" + userid + "&spaceid=" + spaceid,
+        body,
+        context);
+
+    print(response);
+    return HomeModel.fromJson(json.decode(response));
   }
 
   _removeSSL(

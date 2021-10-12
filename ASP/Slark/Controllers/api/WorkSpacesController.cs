@@ -22,6 +22,9 @@ namespace Slark.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
+        //project status 0 pending  1 inprogress  2done 
+
         [Route("api/register")]
         [HttpPost]
         public GenericResponseObject<LoginRegisterViewMode> regiesterCustomerAsync([FromBody] RegisterViewModels body)
@@ -71,7 +74,7 @@ namespace Slark.Controllers
                     v.Id = item.Id;
                     v.WsName = item.WsName;
                     v.Ismine = true;
-                    var spaces = db.Spaces.Where(x=>x.WsId==v.Id);
+                    var spaces = db.Spaces.Where(x => x.WsId == v.Id);
                     foreach (var space in spaces)
                     {
                         SpaceViewModel singlespace = new SpaceViewModel();
@@ -126,7 +129,7 @@ namespace Slark.Controllers
         {
             var signinManager = HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
             LoginRegisterViewMode regmodemodel = new LoginRegisterViewMode();
-            
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             SignInStatus result =
@@ -324,7 +327,7 @@ namespace Slark.Controllers
         [Route("api/GetHome")]
         //HomePage
         [ResponseType(typeof(HomeViewModel))]
-        public IHttpActionResult GetHome(string id,string userid,string spaceid)
+        public IHttpActionResult GetHome(string id, string userid, string spaceid)
         {
             List<HomeViewModel> home = new List<HomeViewModel>();
             GenericResponseObject<HomeViewModel> GResp = new GenericResponseObject<HomeViewModel>();
@@ -332,20 +335,21 @@ namespace Slark.Controllers
             {
                 //var message = db.PrivateMessages.OrderByDescending(x => x.CreationDate).Where(z=>z.RecieverUser==userid).GroupBy(z=>z.AspNetUser)).Take(4).ToList();
                 var message = from p in db.PrivateMessages
-                            where p.RecieverUser == userid
-                            group p by p.AspNetUser into op
-                            select op.OrderByDescending(nd => nd.CreationDate).FirstOrDefault();
+                              where p.RecieverUser == userid
+                              group p by p.AspNetUser into op
+                              select op.OrderByDescending(nd => nd.CreationDate).FirstOrDefault();
 
-                var projects = db.Projects.Where(x => x.status==1 && x.SpaceId==spaceid).Take(5).ToList();
+                var projects = db.Projects.Where(x => x.status == 1 && x.SpaceId == spaceid).Take(5).ToList();
                 HomeViewModel home1 = new HomeViewModel();
-                List <UserListViewModel> userlist = new List<UserListViewModel>();
-                List <ProjectsViewModel> projectList = new List<ProjectsViewModel>();
-                List <SpaceViewModel> workspacelist = new List<SpaceViewModel>();
-                foreach (var item in message)
+                List<UserListViewModel> userlist = new List<UserListViewModel>();
+                List<ProjectsViewModel> projectList = new List<ProjectsViewModel>();
+                List<SpaceViewModel> workspacelist = new List<SpaceViewModel>();
+                foreach (var item in message.ToList())
                 {
                     UserListViewModel user = new UserListViewModel();
-                    user.id = item.AspNetUser.Id;
-                    user.Email = item.AspNetUser.Email;
+                    var it = db.AspNetUsers.Find(item.RecieverUser);
+                    user.id = it.Id;
+                    user.Email = it.Email;
                     userlist.Add(user);
                 }
                 foreach (var item in projects)
@@ -354,7 +358,7 @@ namespace Slark.Controllers
                     project.id = item.Id;
                     project.Name = item.Name;
                     int perc = 0;
-                    if(item.Tasks.Count!=0)
+                    if (item.Tasks.Count != 0)
                     {
                         perc = (item.Tasks.Where(x => x.IsClosed == 1).Count() * 100) / item.Tasks.Count();
 
@@ -380,7 +384,7 @@ namespace Slark.Controllers
                 GResp.Code = 1;
                 return Ok(GResp);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 GResp.data = new List<HomeViewModel>();
                 GResp.message = "Error";
@@ -394,7 +398,7 @@ namespace Slark.Controllers
         [HttpPost]
         [Route("api/GetProjectList")]
         [ResponseType(typeof(ProjectsViewModel))]
-        public IHttpActionResult GetProjectList( string spaceid)
+        public IHttpActionResult GetProjectList(string spaceid)
         {
             GenericResponseObject<ProjectsViewModel> GResp = new GenericResponseObject<ProjectsViewModel>();
             try
@@ -495,7 +499,7 @@ namespace Slark.Controllers
         [HttpPost]
         [Route("api/inviteworktoteam")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult inviteworktoteam(string teamid, string userid,string isTML)
+        public IHttpActionResult inviteworktoteam(string teamid, string userid, string isTML)
         {
             TeamMember tm = new TeamMember();
             tm.Id = Guid.NewGuid().ToString();
@@ -514,10 +518,97 @@ namespace Slark.Controllers
 
 
 
+        [ResponseType(typeof(Space))]
+        [HttpPost]
+        [Route("api/PostSpace")]
+        public IHttpActionResult PostSpace(string wsid, string spacename)
+        {
+            Space space = new Space();
+            space.Id = Guid.NewGuid().ToString();
+            space.WsId = wsid;
+            space.SpaceName = spacename;
+            db.Spaces.Add(space);
+            db.SaveChanges();
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+        [ResponseType(typeof(WorkSpace))]
+        [HttpPost]
+        [Route("api/PostworkSpace")]
+        public IHttpActionResult PostworkSpace(string userid, string spacename)
+        {
+            WorkSpace ws = new WorkSpace();
+            ws.Id = Guid.NewGuid().ToString();
+            ws.WsName = spacename;
+            db.WorkSpaces.Add(ws);
+            db.SaveChanges();
+            WsManager wsm = new WsManager();
+            wsm.Id = Guid.NewGuid().ToString();
+            wsm.UserId = userid;
+            wsm.WSId = ws.Id;
+            db.WsManagers.Add(wsm);
+            db.SaveChanges();
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
+
+        [HttpPost]
+        [Route("api/PostProject")]
+        public IHttpActionResult PostProject(string spaceid, string projectname, string teamid, string datee)
+        {
+            Project pr = new Project();
+
+            pr.Id = Guid.NewGuid().ToString();
+            pr.Name = projectname;
+            pr.SpaceId = spaceid;
+            pr.status = 0;
+            pr.creationDate = DateTime.Parse(datee);
+            db.Projects.Add(pr);
+            db.SaveChanges();
+            TeamProject prt = new TeamProject();
+            prt.Id = Guid.NewGuid().ToString();
+            prt.TeamId = teamid;
+            prt.ProjectId = pr.Id;
+            db.TeamProjects.Add(prt);
+            db.SaveChanges();
+
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
 
 
-      
+        [HttpPost]
+        [Route("api/PostTeam")]
+        public IHttpActionResult PostTeam(string wksid, string teamname, string membid, string leadid)
+        {
+            Team t = new Team();
+            t.Id = Guid.NewGuid().ToString();
+            t.Name = teamname;
+            t.WsId = wksid;
+            db.Teams.Add(t);
 
+            TeamMember t1 = new TeamMember();
+            t.Id = Guid.NewGuid().ToString();
+            t.Name = teamname;
+            t.WsId = wksid;
+            db.Teams.Add(t);
+
+
+            GenericResponseObject<messagerespViewModel> GResp = new GenericResponseObject<messagerespViewModel>();
+            GResp.data = new List<messagerespViewModel>();
+            GResp.message = "success";
+            GResp.Code = 1;
+            return Ok(GResp);
+        }
 
         public void calc(string[] args)
         {

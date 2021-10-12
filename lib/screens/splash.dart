@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
           seconds: 3,
         ),
         () => {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => ChooseWs()))
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => ChooseWs(widget.userid)))
             });
     return Scaffold(
       body: SafeArea(

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
 
 class NewWS extends StatefulWidget {
-  const NewWS({Key? key}) : super(key: key);
+  NewWS(this.userid, {Key? key}) : super(key: key);
+  final String userid;
 
+  TextEditingController nameController = new TextEditingController();
   @override
   _NewWSState createState() => _NewWSState();
 }
@@ -43,7 +46,9 @@ class _NewWSState extends State<NewWS> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    TextField(),
+                    TextField(
+                      controller: widget.nameController,
+                    ),
                     SizedBox(
                       height: 15.0,
                     ),
@@ -69,6 +74,15 @@ class _NewWSState extends State<NewWS> {
                           onPressed: () {
                             print(MediaQuery.of(context).size.height);
                             print(MediaQuery.of(context).size.height / 2);
+                            bloc
+                                .f_PostworkSpace(context, widget.userid,
+                                    widget.nameController.text)
+                                .then((value) {
+                              if (value.code! > 0) {
+                                Navigator.of(context).pop();
+                              }
+                            });
+                            print(widget.nameController.text);
                           },
                           child: Text(
                             "Create",

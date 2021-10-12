@@ -14,8 +14,11 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 import 'newMember.dart';
 
 class DrawerScreen extends StatefulWidget {
-  const DrawerScreen({Key? key}) : super(key: key);
-
+  const DrawerScreen(this.workspaceid, this.spaceid, this.userid, {Key? key})
+      : super(key: key);
+  final String workspaceid;
+  final String spaceid;
+  final String userid;
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -446,7 +449,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                               onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (BuildContext context) => NewWS());
+                                    builder: (BuildContext context) =>
+                                        NewWS(widget.userid));
                               },
                               elevation: 0.0,
                               backgroundColor: textColor,

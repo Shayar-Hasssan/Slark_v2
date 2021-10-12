@@ -1,18 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:slark_v2/bloc/SingletonBloc.dart';
 import 'package:slark_v2/components/entryItem.dart';
 import 'package:slark_v2/components/newTaskDialog.dart';
 import 'package:slark_v2/constraints.dart';
 import 'package:slark_v2/screens/chooseWs.dart';
 
 class NewProject extends StatefulWidget {
-  const NewProject({Key? key}) : super(key: key);
-
+  NewProject(this.workspaceid, this.spaceid, {Key? key}) : super(key: key);
+  final String workspaceid;
+  final String spaceid;
+  TextEditingController namecontroller = new TextEditingController();
   @override
   _NewProjectState createState() => _NewProjectState();
 }
 
 class _NewProjectState extends State<NewProject> {
+  List<DropdownMenuItem> teams = [];
+  String selectedvalue = "";
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.f_getteam(context, widget.workspaceid).then((value) {
+      for (var ttype in value.data!) {
+        setState(() {
+          teams.add(
+            DropdownMenuItem(
+              child: Text(
+                ttype.name ?? "",
+              ),
+              value: ttype.id,
+            ),
+          );
+        });
+      }
+    });
+  }
+
   List<String> teamMembers = ['Team1', 'Team2', 'Team3'];
   DateTime selectedDate = DateTime.now();
   @override
@@ -49,16 +74,36 @@ class _NewProjectState extends State<NewProject> {
                     SizedBox(
                       height: 15.0,
                     ),
-                    TextField(),
+                    TextField(
+                      controller: widget.namecontroller,
+                    ),
                     SizedBox(
                       height: 25.0,
                     ),
                     Container(
                       height: 100.0,
-                      child: ListView.builder(
-                        itemCount: teams.length,
-                        itemBuilder: (BuildContext ctx, int index) => EntryItem(
-                          teams[index],
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<dynamic>(
+                          hint: Text(
+                            "teams",
+                          ),
+                          items: teams.map((value) {
+                            return DropdownMenuItem(
+                              value: value.value,
+                              child: value.child,
+                            );
+                          }).toList(),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                            size: 15,
+                          ),
+                          value: selectedvalue == "" ? null : selectedvalue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedvalue = value;
+                            });
+                          },
                         ),
                       ),
                     ),
@@ -101,9 +146,22 @@ class _NewProjectState extends State<NewProject> {
                           onPressed: () {
                             print(MediaQuery.of(context).size.height);
                             print(MediaQuery.of(context).size.height / 2);
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => NewTask());
+                            bloc
+                                .f_PostProject(
+                                    context,
+                                    widget.spaceid,
+                                    widget.namecontroller.text,
+                                    selectedvalue,
+                                    selectedDate.toString())
+                                .then((value) {
+                              if (value.code! > 0) {
+                                Navigator.of(context).pop();
+                              }
+                            });
+                            print(widget.namecontroller.text);
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (BuildContext context) => NewTask());
                           },
                           child: Text(
                             "Create",

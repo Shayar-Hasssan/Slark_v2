@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slark_v2/components/deleteDialog.dart';
+import 'package:slark_v2/models/HomeModel.dart';
 
 class Spaces extends StatefulWidget {
-  const Spaces({Key? key}) : super(key: key);
-
+  const Spaces(this.spaces1, {Key? key}) : super(key: key);
+  final List<Space> spaces1;
   @override
   _SpacesState createState() => _SpacesState();
 }
@@ -27,7 +28,7 @@ class _SpacesState extends State<Spaces> {
   Widget build(BuildContext context) => spaces.isEmpty
       ? Text('NO Spaces Yet')
       : ListView.builder(
-          itemCount: spaces.length,
+          itemCount: widget.spaces1.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -42,7 +43,7 @@ class _SpacesState extends State<Spaces> {
                       title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${spaces[index]}'),
+                      Text('${widget.spaces1[index].name}'),
                       IconButton(
                           onPressed: () {
                             showDialog(

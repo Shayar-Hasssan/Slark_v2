@@ -5,6 +5,7 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slark_v2/components/modalChat.dart';
+import 'package:slark_v2/models/HomeModel.dart';
 import 'package:slark_v2/models/chat.dart';
 import 'package:slark_v2/screens/Kanbanboard.dart';
 import 'package:slark_v2/screens/gantt.dart';
@@ -16,8 +17,8 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 import '../constraints.dart';
 
 class ProjectSummery extends StatefulWidget {
-  const ProjectSummery({Key? key}) : super(key: key);
-
+  const ProjectSummery(this.project, {Key? key}) : super(key: key);
+  final Project project;
   @override
   _ProjectSummeryState createState() => _ProjectSummeryState();
 }
@@ -61,7 +62,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Slark Project',
+                      widget.project.name ?? "",
                       style: GoogleFonts.poppins(
                         color: Color(0xff4d3a58),
                         fontWeight: FontWeight.w500,
@@ -79,7 +80,7 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "90%",
+                            widget.project.percentage ?? "" "%",
                             style: GoogleFonts.poppins(
                               color: Color(0xff4d3a58),
                               fontWeight: FontWeight.w500,
@@ -107,7 +108,8 @@ class _ProjectSummeryState extends State<ProjectSummery> {
                           vertical: ScreenUtil().setWidth(5.0),
                         ),
                         child: Text(
-                          "1 d",
+                          //  "1d",
+                          widget.project.creationDate ?? "",
                           style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: ScreenUtil().setSp(8.0)),

@@ -141,15 +141,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
-                            ProjectSummery(),
+                            // ProjectSummery(),
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
-                            ProjectSummery(),
+                            // ProjectSummery(),
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
-                            ProjectSummery(),
+                            // ProjectSummery(),
                             SizedBox(
                               height: ScreenUtil().setHeight(10.0),
                             ),
