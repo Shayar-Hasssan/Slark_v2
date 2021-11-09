@@ -1,10 +1,6 @@
 # slark_v2
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
+Project Management Application.
 
 ![254710516_313659690590157_8547036801183392676_n(1)](https://user-images.githubusercontent.com/69271385/140958135-6f4c5ad0-0769-4e12-a0e6-e574a0753dcb.jpg)
 ![255029300_2800477253583700_9010388724905731438_n](https://user-images.githubusercontent.com/69271385/140958245-a28e8f6a-2e55-477d-8be5-358c04ddcc9b.jpg)
@@ -13,6 +9,10 @@ This project is a starting point for a Flutter application.
 ![255198683_878906332770144_6335195320054072943_n](https://user-images.githubusercontent.com/69271385/140958402-14e19fe4-fd65-45bf-8973-431360e5fb24.jpg)
 ![254838776_720203382272590_8586949467994428593_n](https://user-images.githubusercontent.com/69271385/140958511-d8ed4a78-de81-43e4-ad01-f24cc48211c8.jpg)
 ![255657415_978649436052109_4417607426976404479_n](https://user-images.githubusercontent.com/69271385/140958551-6e1f0885-03c3-4023-88be-4fdc8b8f5b88.jpg)
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
 
 
 A few resources to get you started if this is your first Flutter project:
